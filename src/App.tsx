@@ -1,11 +1,11 @@
 import "./App.css";
-import Question from "./Question";
+import { QuestionManager } from "./QuestionManager";
 
 function App() {
   return (
     <>
       <div className="outer">
-        <Question />
+        <QuestionManager />
       </div>
     </>
   );

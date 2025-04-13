@@ -61,8 +61,10 @@
   gap: 0.5rem;
   font-size: 0.875rem;
   position: absolute;
-  bottom: 72px;
+  bottom: 82px;
   left: 60px;
+  min-width: 80%;
+  max-width: 80%;
 }
 
 .option-button {
@@ -73,7 +75,7 @@
   color: #fffac9;
   text-align: left;
   font-family: "Fuzzy Bubbles", sans-serif;
-  max-width: 90%;
+  width: 100%;
 }
 
 .drawn-line {
@@ -186,4 +188,32 @@
   left: -12px;
   bottom: -12px;
   position: absolute;
+}
+
+.thunderstorm {
+  width: 90%;
+  left: 5%;
+  margin-top: 5rem;
+  margin-bottom: 5rem;
+  left: 5%;
+  position: relative;
+  width: 90%;
+  animation: alert 1.5s infinite;
+  animation-timing-function: steps(1, end);
+  transform-origin: center center;
+}
+
+@keyframes alert {
+  0% {
+    transform: translate(0px, 0px) rotate(2deg) scale(1);
+  }
+  25% {
+    transform: translate(0px, 0px) rotate(-2deg) scale(1);
+  }
+  50% {
+    transform: translate(0px, 0px) rotate(2deg) scale(0.9);
+  }
+  75% {
+    transform: translate(0px, 0px) rotate(-2deg) scale(0.9);
+  }
 }

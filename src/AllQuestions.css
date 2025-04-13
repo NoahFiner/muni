@@ -1,0 +1,27 @@
+.big-image {
+  height: 14rem;
+  width: auto;
+  margin: 1rem auto;
+  filter: drop-shadow(2px 2px #3f4b53) drop-shadow(-2px 2px #3f4b53)
+    drop-shadow(2px -2px #3f4b53) drop-shadow(-2px -2px #3f4b53);
+}
+
+.waymo-container {
+  position: relative;
+  height: 20rem;
+  width: 100%;
+}
+
+.waymo-front {
+  height: 14rem;
+  position: absolute;
+  left: 3px;
+  top: 3rem;
+}
+
+.iphone {
+  height: 13rem;
+  position: absolute;
+  top: 9rem;
+  right: -15px;
+}

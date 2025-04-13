@@ -1,10 +1,12 @@
 import TopBarSvg from "./assets/topBar";
 import "./Question.css";
-import skyline from "./assets/img/skyline.svg";
 import questionBox from "./assets/question-box-no-border.svg";
 import muni from "./assets/img/muni.png";
 import TransitBottom from "./assets/transit";
 import DrawnLine from "./assets/Line";
+import { useCallback } from "react";
+import { useSetAtom } from "jotai";
+import { currentStateAtom } from "./atoms";
 
 function TopBar({ number, title }: { number: number; title: string }) {
   return (
@@ -21,31 +23,56 @@ function TopBar({ number, title }: { number: number; title: string }) {
 function QuestionBox({ paragraphs }: { paragraphs: string[] }) {
   return (
     <div className="question-container">
-      {paragraphs.map((paragraph) => (
-        <p>{paragraph}</p>
+      {paragraphs.map((paragraph, idx) => (
+        <p key={idx}>{paragraph}</p>
       ))}
       <img src={questionBox} />
     </div>
   );
 }
 
-export default function Question() {
+export type MBTIType = "I" | "E" | "S" | "N" | "T" | "F" | "J" | "P";
+
+export type Choice = {
+  text: string;
+  mbti?: MBTIType;
+};
+
+export default function Question({
+  number,
+  title,
+  paragraphs,
+  option1,
+  option2,
+  children,
+}: {
+  number: number;
+  title: string;
+  paragraphs: string[];
+  option1: Choice;
+  option2: Choice;
+  children?: React.ReactElement;
+}) {
+  const setCurrentState = useSetAtom(currentStateAtom);
+
+  const onClick = useCallback(
+    (mbti?: MBTIType) => {
+      setCurrentState((prev) => ({
+        ...prev,
+        currentQuestion: prev.currentQuestion + 1,
+      }));
+    },
+    [setCurrentState]
+  );
+
   return (
     <div className="app-container">
-      {/* Card Container */}
-      {/* Header */}
-      <TopBar number={1} title={"The journey back"} />
+      <TopBar number={number} title={title} />
 
-      {/* City Skyline Image Placeholder */}
-      <img className="big-image" src={skyline} />
+      {children}
 
       {/* Text Box */}
-      <QuestionBox
-        paragraphs={[
-          "You’re in an unfamiliar SF neighborhood. Your stomach is satisfied after a delicious meal with your friends.",
-          "While the vibes are high, the sun is far down. It’s time to say goodbye and grab a ride back home.",
-        ]}
-      />
+      <QuestionBox paragraphs={paragraphs} />
 
       <div className="bottom-aligned">
         <div className="transit-bottom-outer">
@@ -54,14 +81,20 @@ export default function Question() {
 
         {/* Buttons */}
         <div className="button-group">
-          <button className="option-button">
-            <p>lemme know the next time yall hang out</p>
+          <button
+            className="option-button"
+            onClick={() => onClick(option1.mbti)}
+          >
+            <p>{option1.text}</p>
             <div className="drawn-line">
               <DrawnLine />
             </div>
           </button>
-          <button className="option-button">
-            <p>let’s see each other next week!</p>
+          <button
+            className="option-button"
+            onClick={() => onClick(option2.mbti)}
+          >
+            <p>{option2.text}</p>
             <div className="drawn-line">
               <DrawnLine />
             </div>
