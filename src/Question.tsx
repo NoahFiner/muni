@@ -71,10 +71,9 @@ export default function Question({
 
       {children}
 
-      {/* Text Box */}
-      <QuestionBox paragraphs={paragraphs} />
-
       <div className="bottom-aligned">
+        {/* Text Box */}
+        <QuestionBox paragraphs={paragraphs} />
         <div className="transit-bottom-outer">
           <TransitBottom />
         </div>

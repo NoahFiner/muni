@@ -1,7 +1,8 @@
-.outer {
+.actually-outer {
   background-color: green;
   width: 100vw;
   height: 100vh;
-  display: flex;
-  justify-content: center;
+  max-width: 550px;
+  position: relative;
+  margin: 0 auto;
 }

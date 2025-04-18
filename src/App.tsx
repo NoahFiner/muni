@@ -4,7 +4,7 @@ import { QuestionManager } from "./QuestionManager";
 function App() {
   return (
     <>
-      <div className="outer">
+      <div className="actually-outer">
         <QuestionManager />
       </div>
     </>

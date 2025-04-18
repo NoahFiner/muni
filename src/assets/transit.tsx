@@ -1,4 +1,8 @@
+import { useAtomValue } from "jotai";
+import { currentBackgroundColorAtom } from "../atoms";
+
 export default function TransitBottom() {
+  const backgroundColor = useAtomValue(currentBackgroundColorAtom);
   return (
     <svg
       width="122"
@@ -19,7 +23,7 @@ export default function TransitBottom() {
         width="28.1137"
         height="37.9091"
         transform="translate(28 173)"
-        fill="#171818"
+        style={{ fill: backgroundColor, transition: "all 1s" }}
       />
       <g filter="url(#filter1_d_255_1764)">
         <path
@@ -33,7 +37,7 @@ export default function TransitBottom() {
         width="27.0514"
         height="36.2787"
         transform="translate(28 87.2153)"
-        fill="#171818"
+        style={{ fill: backgroundColor, transition: "all 1s" }}
       />
       <g filter="url(#filter2_d_255_1764)">
         <path

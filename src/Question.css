@@ -1,10 +1,12 @@
-/* JourneyBack.css */
+.outer {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
 
-/* Mobile-first base styles */
 .app-container {
   height: 100vh;
   width: 100%;
-  background-color: black;
   color: white;
   display: flex;
   flex-direction: column;
@@ -155,7 +157,10 @@
   margin: 0 auto;
   height: auto;
   position: relative;
+  position: absolute;
+  bottom: 16rem;
   z-index: 1;
+  left: 1rem;
 }
 
 .question-container > p {
@@ -215,5 +220,177 @@
   }
   75% {
     transform: translate(0px, 0px) rotate(-2deg) scale(0.9);
+  }
+}
+
+.question4-outer {
+  aspect-ratio: 2502 / 1580;
+  width: 95%;
+  margin: 2rem 2.5%;
+  position: relative;
+}
+
+.question4-outer > * {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+.waymo-inside-screen {
+  animation: spookyFadeOut 5s steps(1, end);
+  animation-delay: 2s;
+  animation-fill-mode: forwards;
+}
+
+.window-flash {
+  animation: lightningBackground 4s linear infinite;
+}
+.lightning1 {
+  animation: lightning1 4s linear infinite;
+}
+.lightning2 {
+  animation: lightning2 4s linear infinite;
+}
+
+@keyframes spookyFadeOut {
+  0% {
+    opacity: 1;
+  }
+  5% {
+    opacity: 0.6;
+  }
+  7% {
+    opacity: 1;
+  }
+  10% {
+    opacity: 0.5;
+  }
+  12% {
+    opacity: 1;
+  }
+  15% {
+    opacity: 0.3;
+  }
+  17% {
+    opacity: 1;
+  }
+  22% {
+    opacity: 0.2;
+  }
+  25% {
+    opacity: 1;
+  }
+  30% {
+    opacity: 0.4;
+  }
+  33% {
+    opacity: 0;
+  }
+  36% {
+    opacity: 0.8;
+  }
+  40% {
+    opacity: 0.2;
+  }
+  45% {
+    opacity: 0.9;
+  }
+  50% {
+    opacity: 0;
+  }
+  55% {
+    opacity: 0.5;
+  }
+  60% {
+    opacity: 0.1;
+  }
+  65% {
+    opacity: 0.8;
+  }
+  70% {
+    opacity: 0.05;
+  }
+  75% {
+    opacity: 0.4;
+  }
+  80% {
+    opacity: 0;
+  }
+  85% {
+    opacity: 0.3;
+  }
+  90% {
+    opacity: 0;
+  }
+  95% {
+    opacity: 0.1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* flash at 20% and 50% */
+@keyframes lightningBackground {
+  0% {
+    opacity: 0;
+  }
+  19% {
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.5;
+  }
+  30% {
+    opacity: 0;
+  }
+  49% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  60% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes lightning1 {
+  0% {
+    opacity: 0;
+  }
+  19% {
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  22% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes lightning2 {
+  0% {
+    opacity: 0;
+  }
+  49% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  52% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
   }
 }
