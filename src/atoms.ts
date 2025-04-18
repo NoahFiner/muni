@@ -1,18 +1,37 @@
 import { atom } from "jotai";
+import { QUESTION_METADATA } from "./consts";
 type CurrentState = {
   currentQuestion: number;
-};
-
-// i fucked up indexing but don't care enough lol
-// index 5 = question 6
-const QUESTION_INDEX_TO_BACKGROUND: { [key: number]: string } = {
-  5: "#222",
 };
 
 export const currentStateAtom = atom<CurrentState>({ currentQuestion: 0 });
 
 export const currentBackgroundColorAtom = atom(
   (get) =>
-    QUESTION_INDEX_TO_BACKGROUND[get(currentStateAtom).currentQuestion] ||
+    QUESTION_METADATA[get(currentStateAtom).currentQuestion].backgroundColor ||
     "#000"
 );
+
+export const currentTextColorAtom = atom((get) => {
+  const variant =
+    QUESTION_METADATA[get(currentStateAtom).currentQuestion].variant;
+  switch (variant) {
+    case "warning":
+      return "#fff";
+    case "light":
+      return "#0D306C";
+    default:
+      return "#fcf5e0";
+  }
+});
+
+export const currentTransitDecalColor = atom((get) => {
+  const variant =
+    QUESTION_METADATA[get(currentStateAtom).currentQuestion].variant;
+  switch (variant) {
+    case "warning":
+      return "#0D306C";
+    default:
+      return "#D08F26";
+  }
+});

@@ -1,12 +1,12 @@
 import TopBarSvg from "./assets/topBar";
 import "./Question.css";
 import questionBox from "./assets/question-box-no-border.svg";
-import muni from "./assets/img/muni.png";
+import muni from "./assets/img/muni.svg";
 import TransitBottom from "./assets/transit";
 import DrawnLine from "./assets/Line";
 import { useCallback } from "react";
-import { useSetAtom } from "jotai";
-import { currentStateAtom } from "./atoms";
+import { useAtomValue, useSetAtom } from "jotai";
+import { currentStateAtom, currentTextColorAtom } from "./atoms";
 
 function TopBar({ number, title }: { number: number; title: string }) {
   return (
@@ -17,6 +17,18 @@ function TopBar({ number, title }: { number: number; title: string }) {
       </div>
       <TopBarSvg />
     </div>
+  );
+}
+
+function ChoiceContent({ text }: { text: string }) {
+  const textColor = useAtomValue(currentTextColorAtom);
+  return (
+    <>
+      <p style={{ color: textColor, transition: "color 1s" }}>{text}</p>
+      <div className="drawn-line">
+        <DrawnLine strokeColor={textColor} />
+      </div>
+    </>
   );
 }
 
@@ -84,19 +96,13 @@ export default function Question({
             className="option-button"
             onClick={() => onClick(option1.mbti)}
           >
-            <p>{option1.text}</p>
-            <div className="drawn-line">
-              <DrawnLine />
-            </div>
+            <ChoiceContent text={option1.text} />
           </button>
           <button
             className="option-button"
             onClick={() => onClick(option2.mbti)}
           >
-            <p>{option2.text}</p>
-            <div className="drawn-line">
-              <DrawnLine />
-            </div>
+            <ChoiceContent text={option2.text} />
           </button>
         </div>
 

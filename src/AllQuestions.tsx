@@ -10,10 +10,16 @@ import windowBase from "./assets/question4/window-base.svg";
 import windowFlash from "./assets/question4/window-flash.svg";
 import bye from "./assets/img/bye.png";
 import muniShelter from "./assets/img/muni-shelter.svg";
+import busPuddle from "./assets/question7/bus-puddle.svg";
+import subtract from "./assets/question7/subtract.svg";
+import tapIn from "./assets/img/taghere.svg";
+import clipper from "./assets/img/clipper.svg";
+import no from "./assets/img/no.svg";
 import Question from "./Question";
 import "./AllQuestions.css";
 import { AnimatePresence, motion } from "motion/react";
 import FogSvg from "./complicated-svgs/Fog";
+import AnimatedWater from "./complicated-svgs/PuddleRipples";
 
 export function Question1() {
   return (
@@ -190,6 +196,88 @@ export function Question6() {
           </div>
         </div>
       </AnimatePresence>
+    </Question>
+  );
+}
+
+export function Question7() {
+  return (
+    <Question
+      number={7}
+      title={"Leap of faith"}
+      paragraphs={[
+        "A bus arrives, and the doors open with a familiar incandescent hue.",
+        "The only thing between you and the bus is a monstrously sized puddle. The distance between you and the bus looks immeasurable",
+      ]}
+      option1={{
+        text: "take the leap of faith and risk both shoes getting soaked",
+        mbti: undefined,
+      }}
+      option2={{
+        text: "put one foot into the puddle and accept your fate",
+        mbti: undefined,
+      }}
+    >
+      <AnimatePresence>
+        <div className="question7-outer">
+          <AnimatedWater />
+          <img src={busPuddle} className="muni-puddle bus-zoom-in" />
+          <img src={subtract} className="subtract-outer" />
+          <div className="subtract-inner"></div>
+          <img
+            src={busPuddle}
+            className="puddle-reflection bus-zoom-in-flipped"
+          />
+        </div>
+      </AnimatePresence>
+    </Question>
+  );
+}
+
+export function Question8() {
+  return (
+    <Question
+      number={8}
+      title={"An important choice"}
+      paragraphs={[
+        "You stick the landing semi-soaked! Fishing through your pocket, you find your happy, familiar blue clipper card.",
+        "Do you tap in and pay for the bus?",
+      ]}
+      option1={{
+        text: "tap in",
+        mbti: undefined,
+      }}
+      option2={{
+        text: "normally i wouldn't...... but i'll do it for the plot",
+        mbti: undefined,
+      }}
+    >
+      <div>
+        <img className="tap-in" src={tapIn} />
+        <img className="clipper" src={clipper} />
+      </div>
+    </Question>
+  );
+}
+
+export function Question9() {
+  return (
+    <Question
+      number={9}
+      title={"PAYMENT DENIED"}
+      paragraphs={["PAYMENT DENIED!!!!!!!!!!!!!!"]}
+      option1={{
+        text: "hopelessly try again",
+        mbti: undefined,
+      }}
+      option2={{
+        text: "AAAAAAAAAAAA",
+        mbti: undefined,
+      }}
+    >
+      <div>
+        <img src={no} className="no" />
+      </div>
     </Question>
   );
 }
