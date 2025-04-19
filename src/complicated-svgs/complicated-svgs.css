@@ -78,12 +78,13 @@
   position: relative;
   left: 0;
   margin-top: 2rem;
+  z-index: 0;
 }
 
 .muni-puddle {
   position: absolute;
   left: -20rem;
-  top: -1rem;
+  top: -2.6rem;
   height: 12rem;
   z-index: 2;
 }
@@ -91,7 +92,7 @@
 .puddle-reflection {
   position: absolute;
   left: -20rem;
-  top: -2.3rem;
+  top: -4.3rem;
   height: 12rem;
   z-index: 0;
   transform: scaleY(-1);
@@ -106,14 +107,14 @@
   height: auto;
   left: -2rem;
   z-index: 1;
-  top: 1rem;
+  top: -1rem;
 }
 
 .subtract-inner {
   width: 100vw;
   background-color: #3e3f54;
   height: 20rem;
-  margin-top: 2rem;
+  margin-top: 0;
   z-index: -1;
 }
 
@@ -121,7 +122,7 @@
   position: absolute;
   width: 20rem;
   height: auto;
-  top: 12rem;
+  top: 10rem;
   left: 7rem;
 }
 
@@ -140,7 +141,7 @@
 }
 
 .bus-zoom-in {
-  animation: busZoomIn 1s ease-out;
+  animation: busZoomIn 1s ease-out 1s;
   animation-fill-mode: both;
 }
 
@@ -154,6 +155,6 @@
 }
 
 .bus-zoom-in-flipped {
-  animation: busZoomInFlipped 1s ease-out;
+  animation: busZoomInFlipped 1s ease-out 1s;
   animation-fill-mode: both;
 }

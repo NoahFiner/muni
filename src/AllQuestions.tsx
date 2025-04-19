@@ -1,6 +1,6 @@
-import skyline from "./assets/img/skyline.svg";
+import skyline from "./assets/img/skyline.png";
 import waymo from "./assets/img/waymo-front.svg";
-import iphone from "./assets/img/iphone.svg";
+import iphone from "./assets/img/iphone.png";
 import thunderstorm from "./assets/img/thunderstorm.png";
 import waymoInsideBase from "./assets/question4/waymo-inside-base.png";
 import waymoInsideScreen from "./assets/question4/waymo happy frame.svg";
@@ -12,9 +12,12 @@ import bye from "./assets/img/bye.png";
 import muniShelter from "./assets/img/muni-shelter.svg";
 import busPuddle from "./assets/question7/bus-puddle.svg";
 import subtract from "./assets/question7/subtract.svg";
-import tapIn from "./assets/img/taghere.svg";
-import clipper from "./assets/img/clipper.svg";
-import no from "./assets/img/no.svg";
+import tapIn from "./assets/img/taghere.png";
+import clipper from "./assets/img/clipper.png";
+import no from "./assets/img/no.png";
+import passengers from "./assets/img/passengers.svg";
+import manEyes from "./assets/img/man-eyes.svg";
+import womanEyes from "./assets/img/woman-eyes.svg";
 import Question from "./Question";
 import "./AllQuestions.css";
 import { AnimatePresence, motion } from "motion/react";
@@ -277,6 +280,33 @@ export function Question9() {
     >
       <div>
         <img src={no} className="no" />
+      </div>
+    </Question>
+  );
+}
+
+export function Question10() {
+  return (
+    <Question
+      number={10}
+      title={"you're in!!"}
+      paragraphs={[
+        "On your second try, your $2.75 was happily accepted! The screen lights up in a joyful, green hue.",
+        "Your next challenge -- there’s only one seat left, it’s between two strangers. Do you sit in the empty seat?",
+      ]}
+      option1={{
+        text: "my legs are tired - let’s sit",
+        mbti: undefined,
+      }}
+      option2={{
+        text: "it’s ok.... i’ll stand",
+        mbti: undefined,
+      }}
+    >
+      <div className="passengers">
+        <img src={passengers} />
+        <img className="woman-eyes" src={womanEyes} />
+        <img className="man-eyes" src={manEyes} />
       </div>
     </Question>
   );

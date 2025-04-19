@@ -2,10 +2,11 @@
   width: 100%;
   height: 100%;
   position: relative;
+  overflow: hidden;
 }
 
 .app-container {
-  height: 100vh;
+  height: 100dvh;
   width: 100%;
   color: white;
   display: flex;
@@ -28,14 +29,6 @@
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-}
-
-.big-image {
-  height: 14rem;
-  width: auto;
-  margin: 1rem auto;
-  filter: drop-shadow(2px 2px #3f4b53) drop-shadow(-2px 2px #3f4b53)
-    drop-shadow(2px -2px #3f4b53) drop-shadow(-2px -2px #3f4b53);
 }
 
 .text-box {
@@ -64,7 +57,7 @@
   gap: 0.5rem;
   font-size: 0.875rem;
   position: absolute;
-  bottom: 82px;
+  bottom: 54px;
   left: 60px;
   min-width: 80%;
   max-width: 80%;
@@ -79,6 +72,12 @@
   text-align: left;
   font-family: "Fuzzy Bubbles", sans-serif;
   width: 100%;
+}
+
+.option-button {
+  outline: 0 !important;
+  box-shadow: none !important;
+  border: 0 !important;
 }
 
 .drawn-line {
@@ -123,6 +122,28 @@
   display: flex;
   align-items: center;
   gap: 1rem;
+  animation: busFlicker 5s steps(1, end) infinite;
+}
+
+@keyframes busFlicker {
+  0% {
+    opacity: 1;
+  }
+  33% {
+    opacity: 0.8;
+  }
+  43% {
+    opacity: 1;
+  }
+  66% {
+    opacity: 0.8;
+  }
+  76% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 .header-number {
@@ -160,7 +181,7 @@
   height: auto;
   position: relative;
   position: absolute;
-  bottom: 16rem;
+  bottom: 14rem;
   z-index: 1;
   left: 1rem;
 }
@@ -168,7 +189,8 @@
 .question-container > p {
   font-family: "Fuzzy Bubbles", sans-serif;
   color: #fcf5e0;
-  margin: 24px 12px;
+  margin: 18px 12px;
+  font-size: 13px;
 }
 
 .question-container img {
@@ -179,21 +201,21 @@
   height: 100%;
   z-index: -1;
   pointer-events: none;
-  filter: drop-shadow(4px 4px #3e4b53) drop-shadow(-4px 4px #3e4b53)
-    drop-shadow(4px -4px #3e4b53) drop-shadow(-4px -4px #3e4b53);
+  filter: drop-shadow(2px 2px #3e4b53) drop-shadow(-2px 2px #3e4b53)
+    drop-shadow(2px -2px #3e4b53) drop-shadow(-2px -2px #3e4b53);
 }
 
 .muni {
   bottom: 12px;
   right: 12px;
-  width: 30%;
+  width: 20%;
   height: auto;
   position: absolute;
 }
 
 .transit-bottom-outer {
   left: -12px;
-  bottom: -12px;
+  bottom: -42px;
   position: absolute;
 }
 
@@ -229,6 +251,7 @@
   aspect-ratio: 2502 / 1580;
   width: 115%;
   margin: 1rem -7.5%;
+  margin-top: 0rem;
   position: relative;
 }
 
@@ -398,17 +421,17 @@
 }
 
 .tap-in {
-  height: 21rem;
+  height: 18rem;
   position: absolute;
   transform: rotate(-12deg);
-  left: 0rem;
+  left: 1rem;
 }
 
 .clipper {
-  height: 13rem;
+  height: 11rem;
   position: absolute;
-  right: 2rem;
-  top: 11rem;
+  right: 3rem;
+  top: 9rem;
   transform-origin: center center;
   animation: clipperJitter 2s steps(1, end) infinite;
 }
@@ -432,9 +455,9 @@
 }
 
 .no {
-  width: 80%;
+  width: 60%;
   height: auto;
   position: absolute;
-  left: 10%;
+  left: 20%;
   top: 7rem;
 }

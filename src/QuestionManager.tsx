@@ -10,6 +10,7 @@ import {
   Question7,
   Question8,
   Question9,
+  Question10,
 } from "./AllQuestions";
 
 export function QuestionManager() {
@@ -23,6 +24,7 @@ export function QuestionManager() {
     <Question7 />,
     <Question8 />,
     <Question9 />,
+    <Question10 />,
   ];
   const { currentQuestion } = useAtomValue(currentStateAtom);
 

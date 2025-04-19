@@ -33,6 +33,6 @@ export const QUESTION_METADATA: QuestionMetadata[] = [
     variant: "warning",
   },
   {
-    backgroundColor: "#111",
+    backgroundColor: "#223",
   },
 ];

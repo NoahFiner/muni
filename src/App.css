@@ -1,7 +1,7 @@
 .actually-outer {
   background-color: green;
   width: 100vw;
-  height: 100vh;
+  height: 100dvh;
   max-width: 550px;
   position: relative;
   margin: 0 auto;
