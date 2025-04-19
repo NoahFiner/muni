@@ -461,3 +461,11 @@
   left: 20%;
   top: 7rem;
 }
+
+.questions-riddle-image {
+  width: 90%;
+  margin-left: 5%;
+  margin-top: 2rem;
+  height: auto;
+  animation: clipperJitter 2s steps(1, end) infinite;
+}

@@ -31,6 +31,8 @@ export const currentTransitDecalColor = atom((get) => {
   switch (variant) {
     case "warning":
       return "#0D306C";
+    case "light":
+      return "#0D306C";
     default:
       return "#D08F26";
   }

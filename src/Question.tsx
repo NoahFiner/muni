@@ -60,7 +60,7 @@ export default function Question({
 }: {
   number: number;
   title: string;
-  paragraphs: string[];
+  paragraphs?: string[];
   option1: Choice;
   option2: Choice;
   children?: React.ReactElement;
@@ -85,7 +85,7 @@ export default function Question({
 
       <div className="bottom-aligned">
         {/* Text Box */}
-        <QuestionBox paragraphs={paragraphs} />
+        {paragraphs && <QuestionBox paragraphs={paragraphs} />}
         <div className="transit-bottom-outer">
           <TransitBottom />
         </div>

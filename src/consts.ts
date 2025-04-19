@@ -35,4 +35,17 @@ export const QUESTION_METADATA: QuestionMetadata[] = [
   {
     backgroundColor: "#223",
   },
+  {
+    backgroundColor: "#222",
+  },
+  {
+    backgroundColor: "#444",
+  },
+  {
+    backgroundColor: "#444",
+  },
+  {
+    backgroundColor: "#fff",
+    variant: "light",
+  },
 ];

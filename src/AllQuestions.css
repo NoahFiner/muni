@@ -118,3 +118,66 @@
 .woman-eyes {
   animation: womanEyes 3.5s steps(1, end) infinite;
 }
+
+.window {
+  position: absolute;
+  top: 20px;
+  left: -46vw;
+  width: 182vw;
+}
+
+.driving-background {
+  width: 294vw;
+  top: 108px;
+  left: 0;
+  position: absolute;
+}
+
+.houses {
+  animation: housesAnimate 4s linear infinite;
+}
+.stars {
+  animation: starsAnimate 24s linear infinite;
+}
+
+@keyframes housesAnimate {
+  0% {
+    left: 0;
+  }
+  100% {
+    left: -146.65vw;
+  }
+}
+@keyframes starsAnimate {
+  0% {
+    left: 0;
+  }
+  100% {
+    left: -178.3vw;
+  }
+}
+
+.eyeballs {
+  width: 95%;
+  height: 50vh;
+  left: 5%;
+  top: 1rem;
+  position: relative;
+}
+
+.eyeballs > img {
+  position: absolute;
+  height: auto;
+  width: 100%;
+}
+
+.eyeballs > img.hidden {
+  opacity: 0;
+}
+
+.pants-meme {
+  width: 95%;
+  height: auto;
+  margin-left: 5%;
+  margin-top: 2rem;
+}

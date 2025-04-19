@@ -2,27 +2,35 @@ import skyline from "./assets/img/skyline.png";
 import waymo from "./assets/img/waymo-front.svg";
 import iphone from "./assets/img/iphone.png";
 import thunderstorm from "./assets/img/thunderstorm.png";
-import waymoInsideBase from "./assets/question4/waymo-inside-base.png";
-import waymoInsideScreen from "./assets/question4/waymo happy frame.svg";
-import lightning1 from "./assets/question4/lightning-1.svg";
-import lightning2 from "./assets/question4/lightning-2.svg";
-import windowBase from "./assets/question4/window-base.svg";
-import windowFlash from "./assets/question4/window-flash.svg";
+import waymoInsideBase from "./assets/img/question4/waymo-inside-base.png";
+import waymoInsideScreen from "./assets/img/question4/waymo happy frame.svg";
+import lightning1 from "./assets/img/question4/lightning-1.svg";
+import lightning2 from "./assets/img/question4/lightning-2.svg";
+import windowBase from "./assets/img/question4/window-base.svg";
+import windowFlash from "./assets/img/question4/window-flash.svg";
 import bye from "./assets/img/bye.png";
 import muniShelter from "./assets/img/muni-shelter.svg";
-import busPuddle from "./assets/question7/bus-puddle.svg";
-import subtract from "./assets/question7/subtract.svg";
+import busPuddle from "./assets/img/question7/bus-puddle.svg";
+import subtract from "./assets/img/question7/subtract.svg";
 import tapIn from "./assets/img/taghere.png";
 import clipper from "./assets/img/clipper.png";
 import no from "./assets/img/no.png";
 import passengers from "./assets/img/passengers.svg";
 import manEyes from "./assets/img/man-eyes.svg";
 import womanEyes from "./assets/img/woman-eyes.svg";
+import busWindow from "./assets/img/question11/window.png";
+import houses from "./assets/img/question11/houses.png";
+import stars from "./assets/img/question11/stars.png";
+import oldManEyes from "./assets/old-man.png";
+import oldManEyesClosed from "./assets/old-man-blink.png";
+import questions from "./assets/questions.png";
+import meme from "./assets/meme.png";
 import Question from "./Question";
 import "./AllQuestions.css";
 import { AnimatePresence, motion } from "motion/react";
 import FogSvg from "./complicated-svgs/Fog";
 import AnimatedWater from "./complicated-svgs/PuddleRipples";
+import { useAnimatedValue } from "./hooks";
 
 export function Question1() {
   return (
@@ -308,6 +316,112 @@ export function Question10() {
         <img className="woman-eyes" src={womanEyes} />
         <img className="man-eyes" src={manEyes} />
       </div>
+    </Question>
+  );
+}
+
+export function Question11() {
+  return (
+    <Question
+      number={11}
+      title={"The lights dance by"}
+      paragraphs={[
+        "Your phone is dead and you can’t doomscroll or watch endless videos on your phone, your normal routine.",
+        "You instead choose to look out the window as the lights of endless houses dance by.",
+      ]}
+      option1={{
+        text: "i wonder if i can recognize a street sign out there",
+        mbti: undefined,
+      }}
+      option2={{
+        text: "there’s so much in the city i haven’t seen before, wow!",
+        mbti: undefined,
+      }}
+    >
+      <div className="question11-outer">
+        <img className="stars driving-background" src={stars} />
+        <img className="houses driving-background" src={houses} />
+        <img className="window" src={busWindow} />
+      </div>
+    </Question>
+  );
+}
+
+function OldManEyes() {
+  const randomNumber = useAnimatedValue(20, 300);
+  let blinking = false;
+  if (randomNumber === 11 || randomNumber === 19) {
+    blinking = true;
+  }
+  return (
+    <div className="eyeballs">
+      <img src={oldManEyes} className={blinking ? "hidden" : ""} />
+      <img src={oldManEyesClosed} className={!blinking ? "hidden" : ""} />
+    </div>
+  );
+}
+
+export function Question12() {
+  return (
+    <Question
+      number={12}
+      title={"Eye contact"}
+      paragraphs={[
+        "As you take a break from gazing outside and look around inside the bus, you accidentally make awkward eye contact with another rider’s old, wise, grey eyes.",
+        "They warmly look back at you.",
+      ]}
+      option1={{
+        text: "give a light smile",
+        mbti: undefined,
+      }}
+      option2={{
+        text: "immediately look away",
+        mbti: undefined,
+      }}
+    >
+      <OldManEyes />
+    </Question>
+  );
+}
+
+export function Question13() {
+  return (
+    <Question
+      number={13}
+      title={"The riddle"}
+      paragraphs={[
+        "“You!” says the rider, “Can you answer a riddle for me?”",
+        "The rider gives waits attentively.",
+      ]}
+      option1={{
+        text: "look i’m just tryna get home",
+        mbti: undefined,
+      }}
+      option2={{
+        text: "sure i’ll answer it",
+        mbti: undefined,
+      }}
+    >
+      <img className="questions-riddle-image" src={questions} />
+    </Question>
+  );
+}
+
+export function Question14() {
+  return (
+    <Question
+      number={14}
+      title={"pants"}
+      option1={{
+        text: "the first one",
+        mbti: undefined,
+      }}
+      option2={{
+        text: "the second one",
+        mbti: undefined,
+      }}
+    >
+      <img className="pants-meme" src={meme} />
     </Question>
   );
 }
