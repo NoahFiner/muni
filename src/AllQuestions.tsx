@@ -25,6 +25,10 @@ import oldManEyes from "./assets/old-man.png";
 import oldManEyesClosed from "./assets/old-man-blink.png";
 import questions from "./assets/questions.png";
 import meme from "./assets/meme.png";
+import p2p from "./assets/p2p.png";
+import endDark from "./assets/img/end-dark.png";
+import endLight from "./assets/img/end-light.png";
+import fullBus from "./assets/img/full-bus.png";
 import Question from "./Question";
 import "./AllQuestions.css";
 import { AnimatePresence, motion } from "motion/react";
@@ -43,11 +47,11 @@ export function Question1() {
       ]}
       option1={{
         text: "lemme know the next time yall hang out",
-        mbti: undefined,
+        mbti: "J",
       }}
       option2={{
         text: "let’s see each other next week!",
-        mbti: undefined,
+        mbti: "P",
       }}
     >
       <img className="big-image" src={skyline} />
@@ -66,11 +70,11 @@ export function Question2() {
       ]}
       option1={{
         text: "front seat",
-        mbti: undefined,
+        mbti: "S",
       }}
       option2={{
         text: "back seat",
-        mbti: undefined,
+        mbti: "N",
       }}
     >
       <AnimatePresence>
@@ -99,11 +103,11 @@ export function Question3() {
       ]}
       option1={{
         text: "check the weather and radar on your phone",
-        mbti: undefined,
+        mbti: "T",
       }}
       option2={{
         text: "see if your friends texted you about the weather or not",
-        mbti: undefined,
+        mbti: "F",
       }}
     >
       <AnimatePresence>
@@ -130,11 +134,11 @@ export function Question4() {
       ]}
       option1={{
         text: "aggressively tap the screen",
-        mbti: undefined,
+        mbti: "S",
       }}
       option2={{
         text: "furiously pry open the door",
-        mbti: undefined,
+        mbti: "N",
       }}
     >
       <AnimatePresence>
@@ -162,11 +166,11 @@ export function Question5() {
       ]}
       option1={{
         text: "sob or shout into the void",
-        mbti: undefined,
+        mbti: "F",
       }}
       option2={{
         text: "try to power on your phone with no success",
-        mbti: undefined,
+        mbti: "T",
       }}
     >
       <AnimatePresence>
@@ -192,11 +196,11 @@ export function Question6() {
       ]}
       option1={{
         text: "check the map to determine where you are",
-        mbti: undefined,
+        mbti: "T",
       }}
       option2={{
         text: "look outside to see if a bus is coming soon",
-        mbti: undefined,
+        mbti: "F",
       }}
     >
       <AnimatePresence>
@@ -222,11 +226,11 @@ export function Question7() {
       ]}
       option1={{
         text: "take the leap of faith and risk both shoes getting soaked",
-        mbti: undefined,
+        mbti: "P",
       }}
       option2={{
         text: "put one foot into the puddle and accept your fate",
-        mbti: undefined,
+        mbti: "J",
       }}
     >
       <AnimatePresence>
@@ -304,11 +308,11 @@ export function Question10() {
       ]}
       option1={{
         text: "my legs are tired - let’s sit",
-        mbti: undefined,
+        mbti: "E",
       }}
       option2={{
         text: "it’s ok.... i’ll stand",
-        mbti: undefined,
+        mbti: "I",
       }}
     >
       <div className="passengers">
@@ -331,11 +335,11 @@ export function Question11() {
       ]}
       option1={{
         text: "i wonder if i can recognize a street sign out there",
-        mbti: undefined,
+        mbti: "S",
       }}
       option2={{
         text: "there’s so much in the city i haven’t seen before, wow!",
-        mbti: undefined,
+        mbti: "N",
       }}
     >
       <div className="question11-outer">
@@ -372,11 +376,11 @@ export function Question12() {
       ]}
       option1={{
         text: "give a light smile",
-        mbti: undefined,
+        mbti: "E",
       }}
       option2={{
         text: "immediately look away",
-        mbti: undefined,
+        mbti: "I",
       }}
     >
       <OldManEyes />
@@ -395,11 +399,11 @@ export function Question13() {
       ]}
       option1={{
         text: "look i’m just tryna get home",
-        mbti: undefined,
+        mbti: "I",
       }}
       option2={{
         text: "sure i’ll answer it",
-        mbti: undefined,
+        mbti: "E",
       }}
     >
       <img className="questions-riddle-image" src={questions} />
@@ -422,6 +426,115 @@ export function Question14() {
       }}
     >
       <img className="pants-meme" src={meme} />
+    </Question>
+  );
+}
+
+export function Question15() {
+  return (
+    <Question
+      number={15}
+      title={"an opportunity"}
+      paragraphs={[
+        "“Thanks, I’m collecting training data for my P2P (pants to pants) startup. Let me know if you ever want some more pants.”",
+        "The stranger hands you a business card and leaves.",
+      ]}
+      option1={{
+        text: "toss the business card. you own enough pants",
+        mbti: "J",
+      }}
+      option2={{
+        text: "keep the business card, maybe you’ll need more pants",
+        mbti: "P",
+      }}
+    >
+      <AnimatePresence>
+        <motion.img
+          initial={{ y: 20, opacity: 0, rotate: "-10deg" }}
+          animate={{ y: 0, opacity: 1, rotate: 0 }}
+          transition={{
+            duration: 1.5,
+            delay: 0.5,
+            type: "spring",
+            bounce: 0.5,
+          }}
+          className="pants-card"
+          src={p2p}
+        />
+      </AnimatePresence>
+    </Question>
+  );
+}
+export function Question16() {
+  return (
+    <Question
+      number={16}
+      title={"your stop"}
+      paragraphs={[
+        "Eventually, it’s time for your stop. You pull the yellow wire, and as the bus comes to a halt, you stand up and move towards the door.",
+        "Do you thank the bus driver?",
+      ]}
+      option1={{
+        text: "thank you!!",
+        mbti: "E",
+      }}
+      option2={{
+        text: "immediately walk out the door",
+        mbti: "I",
+      }}
+    >
+      <AnimatePresence>
+        <img src={endLight} style={{ opacity: 0 }} />
+        <img src={endDark} className="ending-image" />
+        <motion.img
+          initial={{ x: "-100%" }}
+          animate={{ x: 0 }}
+          transition={{
+            duration: 5,
+            delay: 0.5,
+            type: "spring",
+            bounce: 0.1,
+          }}
+          className="full-bus"
+          src={fullBus}
+        />
+      </AnimatePresence>
+    </Question>
+  );
+}
+export function Question17() {
+  return (
+    <Question
+      number={17}
+      title={"Back home"}
+      paragraphs={[
+        "You get off the bus and are greeted with a beautiful view of endless lights, houses, and hills.",
+        "You had no idea this view was just two blocks from your house, what an amazing discovery!",
+      ]}
+      option1={{
+        text: "what a beautiful view, i could stand here forever",
+        mbti: "I",
+      }}
+      option2={{
+        text: "i wish i could share this view with my friends",
+        mbti: "E",
+      }}
+    >
+      <AnimatePresence>
+        <img src={endLight} className="ending-image" />
+        <motion.img
+          initial={{ x: 0 }}
+          animate={{ x: "100%" }}
+          transition={{
+            duration: 3,
+            delay: 1,
+            type: "spring",
+            bounce: 0.1,
+          }}
+          className="full-bus"
+          src={fullBus}
+        />
+      </AnimatePresence>
     </Question>
   );
 }

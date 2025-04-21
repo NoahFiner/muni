@@ -181,3 +181,32 @@
   margin-left: 5%;
   margin-top: 2rem;
 }
+
+.pants-card {
+  width: 90%;
+  height: auto;
+  margin-top: 2rem;
+  transform-origin: bottom right;
+  margin-left: 5%;
+}
+
+.ending-image {
+  width: 113vw;
+  height: auto;
+  left: -5vw;
+  top: 14vw;
+  position: absolute;
+}
+
+.full-bus {
+  height: 60vw;
+  width: auto;
+  left: 1vw;
+  top: 27vw;
+  position: absolute;
+}
+
+.results-outer {
+  color: #fff;
+  padding: 2rem;
+}

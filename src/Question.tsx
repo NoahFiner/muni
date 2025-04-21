@@ -7,6 +7,7 @@ import DrawnLine from "./assets/Line";
 import { useCallback } from "react";
 import { useAtomValue, useSetAtom } from "jotai";
 import { currentStateAtom, currentTextColorAtom } from "./atoms";
+import { Choice, MBTIType } from "./consts";
 
 function TopBar({ number, title }: { number: number; title: string }) {
   return (
@@ -43,13 +44,6 @@ function QuestionBox({ paragraphs }: { paragraphs: string[] }) {
   );
 }
 
-export type MBTIType = "I" | "E" | "S" | "N" | "T" | "F" | "J" | "P";
-
-export type Choice = {
-  text: string;
-  mbti?: MBTIType;
-};
-
 export default function Question({
   number,
   title,
@@ -69,10 +63,16 @@ export default function Question({
 
   const onClick = useCallback(
     (mbti?: MBTIType) => {
-      setCurrentState((prev) => ({
-        ...prev,
-        currentQuestion: prev.currentQuestion + 1,
-      }));
+      setCurrentState((prev) => {
+        const nextMBTI = { ...prev.mbti };
+        if (mbti) {
+          nextMBTI[mbti] = prev.mbti[mbti] + 1;
+        }
+        return {
+          currentQuestion: prev.currentQuestion + 1,
+          mbti: nextMBTI,
+        };
+      });
     },
     [setCurrentState]
   );

@@ -15,7 +15,11 @@ import {
   Question12,
   Question13,
   Question14,
+  Question15,
+  Question16,
+  Question17,
 } from "./AllQuestions";
+import Results from "./results";
 
 export function QuestionManager() {
   const QUESTIONS_IN_ORDER = [
@@ -33,10 +37,21 @@ export function QuestionManager() {
     <Question12 />,
     <Question13 />,
     <Question14 />,
+    <Question15 />,
+    <Question16 />,
+    <Question17 />,
   ];
   const { currentQuestion } = useAtomValue(currentStateAtom);
 
   const backgroundColor = useAtomValue(currentBackgroundColorAtom);
+
+  if (currentQuestion >= QUESTIONS_IN_ORDER.length) {
+    return (
+      <div className="outer" style={{ backgroundColor: "#333" }}>
+        <Results />
+      </div>
+    );
+  }
 
   return (
     <>
