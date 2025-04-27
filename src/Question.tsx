@@ -1,7 +1,6 @@
 import TopBarSvg from "./assets/topBar";
 import "./Question.css";
 import questionBox from "./assets/question-box-no-border.svg";
-import muni from "./assets/img/muni.svg";
 import TransitBottom from "./assets/transit";
 import DrawnLine from "./assets/Line";
 import { useCallback } from "react";
@@ -64,13 +63,15 @@ export default function Question({
   const onClick = useCallback(
     (mbti?: MBTIType) => {
       setCurrentState((prev) => {
-        const nextMBTI = { ...prev.mbti };
+        const nextmbtis = [...prev.mbtis];
         if (mbti) {
-          nextMBTI[mbti] = prev.mbti[mbti] + 1;
+          nextmbtis.push(mbti);
+        } else {
+          nextmbtis.push("_");
         }
         return {
           currentQuestion: prev.currentQuestion + 1,
-          mbti: nextMBTI,
+          mbtis: nextmbtis,
         };
       });
     },
@@ -105,8 +106,6 @@ export default function Question({
             <ChoiceContent text={option2.text} />
           </button>
         </div>
-
-        <img src={muni} className="muni" />
       </div>
     </div>
   );

@@ -16,7 +16,7 @@
   height: 14rem;
   position: absolute;
   left: 3px;
-  top: 3rem;
+  top: 1.5rem;
 }
 
 .iphone {
@@ -204,9 +204,4 @@
   left: 1vw;
   top: 27vw;
   position: absolute;
-}
-
-.results-outer {
-  color: #fff;
-  padding: 2rem;
 }

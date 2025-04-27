@@ -137,7 +137,7 @@ export function Question4() {
         mbti: "S",
       }}
       option2={{
-        text: "furiously pry open the door",
+        text: "furiously fidget with the door handle",
         mbti: "N",
       }}
     >
@@ -222,7 +222,7 @@ export function Question7() {
       title={"Leap of faith"}
       paragraphs={[
         "A bus arrives, and the doors open with a familiar incandescent hue.",
-        "The only thing between you and the bus is a monstrously sized puddle. The distance between you and the bus looks immeasurable",
+        "The only thing between you and the bus is a monstrously sized puddle. The distance between you and the bus looks immeasurable.",
       ]}
       option1={{
         text: "take the leap of faith and risk both shoes getting soaked",
@@ -255,7 +255,7 @@ export function Question8() {
       number={8}
       title={"An important choice"}
       paragraphs={[
-        "You stick the landing semi-soaked! Fishing through your pocket, you find your happy, familiar blue clipper card.",
+        "You are on the warm, dry bus! Fishing through your pocket, you find your happy, familiar blue clipper card.",
         "Do you tap in and pay for the bus?",
       ]}
       option1={{
@@ -328,7 +328,7 @@ export function Question11() {
   return (
     <Question
       number={11}
-      title={"The lights dance by"}
+      title={"adventuring out"}
       paragraphs={[
         "Your phone is dead and you can’t doomscroll or watch endless videos on your phone, your normal routine.",
         "You instead choose to look out the window as the lights of endless houses dance by.",
@@ -395,7 +395,7 @@ export function Question13() {
       title={"The riddle"}
       paragraphs={[
         "“You!” says the rider, “Can you answer a riddle for me?”",
-        "The rider gives waits attentively.",
+        "The rider waits attentively.",
       ]}
       option1={{
         text: "look i’m just tryna get home",
@@ -417,11 +417,11 @@ export function Question14() {
       number={14}
       title={"pants"}
       option1={{
-        text: "the first one",
+        text: "the top one",
         mbti: undefined,
       }}
       option2={{
-        text: "the second one",
+        text: "the bottom one",
         mbti: undefined,
       }}
     >
@@ -491,7 +491,7 @@ export function Question16() {
           animate={{ x: 0 }}
           transition={{
             duration: 5,
-            delay: 0.5,
+            delay: 1,
             type: "spring",
             bounce: 0.1,
           }}
@@ -512,11 +512,11 @@ export function Question17() {
         "You had no idea this view was just two blocks from your house, what an amazing discovery!",
       ]}
       option1={{
-        text: "what a beautiful view, i could stand here forever",
+        text: "i wish i could take in the view for longer",
         mbti: "I",
       }}
       option2={{
-        text: "i wish i could share this view with my friends",
+        text: "i wish i could bring my friends here",
         mbti: "E",
       }}
     >

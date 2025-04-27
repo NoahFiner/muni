@@ -1,27 +1,17 @@
 import { atom } from "jotai";
 import { MBTIType, QUESTION_METADATA } from "./consts";
+import { atomWithStorage } from "jotai/utils";
 
 export type MBTIScore = { [key in MBTIType]: number };
 
-const INITIAL_MBTI_SCORE: MBTIScore = {
-  I: 0,
-  E: 0,
-  S: 0,
-  N: 0,
-  T: 0,
-  F: 0,
-  J: 0,
-  P: 0,
-};
-
 type CurrentState = {
   currentQuestion: number;
-  mbti: MBTIScore;
+  mbtis: MBTIType[];
 };
 
-export const currentStateAtom = atom<CurrentState>({
+export const currentStateAtom = atomWithStorage<CurrentState>("currentState", {
   currentQuestion: 0,
-  mbti: INITIAL_MBTI_SCORE,
+  mbtis: [],
 });
 
 export const currentBackgroundColorAtom = atom(

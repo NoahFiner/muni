@@ -1,0 +1,120 @@
+.results-outer {
+  background-color: #eaeff2;
+  width: 100%;
+  position: relative;
+  padding-bottom: 4rem;
+}
+
+#results-save {
+  background-color: #eaeff2;
+}
+
+.results-header {
+  width: 100%;
+  height: auto;
+  position: relative;
+}
+
+.results-title {
+  width: 100%;
+  height: auto;
+  position: relative;
+  margin: 0;
+  margin-bottom: 4px;
+  animation: fadeIn 0.5s ease-out;
+  animation-fill-mode: both;
+}
+
+.ticket-animation {
+  position: absolute;
+  right: 1%;
+  top: 4%;
+  width: 40%;
+  animation: ticketEnter 0.5s ease-out;
+  animation-delay: 1s;
+  animation-fill-mode: both;
+}
+
+.ticket-wobble-animation {
+  animation: ticketWobble 3s ease-in-out infinite;
+  animation-delay: 0.6s;
+}
+
+@keyframes ticketEnter {
+  0% {
+    transform: translateY(40px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes ticketWobble {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(10px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.ticket-outer {
+  transform: rotate(4deg);
+}
+
+.ticket-outer > p {
+  color: #c20f2f;
+  position: absolute;
+  writing-mode: sideways-lr;
+  text-orientation: mixed;
+  top: 9vw;
+  right: -0.9vw;
+  font-size: 4.8vw;
+  font-family: monospace;
+}
+
+.ticket-outer > img {
+  width: 100%;
+  height: auto;
+  position: absolute;
+  top: 0;
+}
+
+.results-content {
+  width: 98%;
+  margin-left: 1%;
+  height: auto;
+  animation: ticketEnter 0.5s ease-out;
+  animation-delay: 0.2s;
+  animation-fill-mode: both;
+}
+
+.results-buttons {
+  width: 98%;
+  margin-left: 1%;
+  display: flex;
+  height: auto;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+}
+
+.results-buttons > img {
+  height: 18vw;
+  max-height: 95px;
+  width: auto;
+  cursor: pointer;
+}
