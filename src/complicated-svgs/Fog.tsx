@@ -1,4 +1,3 @@
-import React from "react";
 import "./complicated-svgs.css";
 
 export default function FogSvg(props: { backwards?: boolean }) {

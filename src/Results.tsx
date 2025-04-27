@@ -21,6 +21,7 @@ const INITIAL_MBTI_SCORE: MBTIScore = {
   F: 0,
   J: 0,
   P: 0,
+  _: 0,
 };
 
 const arrayToScore = (mbtis: MBTIType[]): MBTIScore => {
