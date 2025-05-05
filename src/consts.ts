@@ -12,6 +12,9 @@ type QuestionMetadata = {
 
 export const QUESTION_METADATA: QuestionMetadata[] = [
   {
+    backgroundColor: "#171818",
+  },
+  {
     backgroundColor: "#111",
   },
   {
