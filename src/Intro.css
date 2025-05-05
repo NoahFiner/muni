@@ -1,0 +1,142 @@
+.intro-outer {
+  height: 100dvh;
+  width: 100%;
+  color: white;
+  background-color: #171818;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  position: relative;
+}
+
+.intro-bus {
+  top: auto;
+  bottom: 0rem;
+  height: 8rem;
+}
+
+.vroom {
+  position: absolute;
+  top: auto;
+  bottom: 0rem;
+  height: 8rem;
+  animation: vroom 1s ease-in-out infinite;
+  animation-delay: 2s;
+}
+
+.vroom-inner {
+  animation: vroomIntro 2s ease-out 1;
+  animation-fill-mode: both;
+}
+
+.intro-houses {
+  bottom: -2rem;
+  top: auto;
+  height: 24rem;
+  width: auto;
+  animation: introHousesAnimate 4s linear infinite;
+}
+
+@keyframes introHousesAnimate {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-63.2rem);
+  }
+}
+@keyframes vroomIntro {
+  0% {
+    transform: translateX(-200%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+@keyframes vroom {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(1rem);
+  }
+  0% {
+    transform: translateX(0);
+  }
+}
+
+.intro-intro-outer {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+.intro-text {
+  position: absolute;
+  top: 2rem;
+  left: 10%;
+  width: 80%;
+  height: auto;
+}
+
+.start-button {
+  width: 60%;
+  right: 1%;
+  margin: 0 auto;
+  position: absolute;
+  bottom: 9rem;
+  z-index: 10;
+  outline: transparent;
+  border: transparent;
+  background: transparent;
+}
+
+.start-button > img {
+  width: 100%;
+  height: auto;
+}
+
+.loading-outer {
+  height: 100%;
+  width: 100%;
+}
+
+.loading-tag {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  height: 20rem;
+  width: auto;
+  transform: translate(-50%, -50%);
+  opacity: 0.8;
+}
+
+.spinner {
+  width: 1.5rem;
+  height: 1.5rem;
+  animation: spinAndCenter 2s linear infinite;
+  top: 48%;
+  left: 50%;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  opacity: 0.8;
+}
+
+.loaded-tag {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  height: 20rem;
+  width: auto;
+  transform: translate(-50%, -50%);
+}
+
+
+@keyframes spinAndCenter {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}

@@ -219,6 +219,7 @@
 .muni {
   width: 20vw;
   height: auto;
+  max-width: 6rem;
 }
 
 .back {

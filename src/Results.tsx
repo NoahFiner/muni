@@ -55,13 +55,20 @@ const Results: React.FC = () => {
     });
   }, [setCurrentState]);
 
-  const save = useCallback(() => {
+  const [isSaving, setIsSaving] = React.useState(false);
+
+  const save = useCallback(async () => {
+    setIsSaving(true);
     const node = document.getElementById("results-save");
     if (node) {
-      htmlToImage
-        .toPng(node)
-        .then((dataUrl) => download(dataUrl, "transit.png"));
+      // freaking safari
+      await htmlToImage.toPng(node);
+      await htmlToImage.toPng(node);
+      await htmlToImage.toPng(node);
+      const result = await htmlToImage.toPng(node);
+      download(result, "transit.png");
     }
+    setIsSaving(false);
   }, []);
 
   return (
@@ -78,11 +85,16 @@ const Results: React.FC = () => {
             </div>
           </div>
         </div>
+        <div className="results-buttons">
+        {
+          !isSaving && (<>
+              <img src={saveButton} onClick={save} />
+              <img src={againButton} onClick={clear} />
+              </>
+            )
+          }
+          </div>
         <img src={ncontent} className="results-content" />
-      </div>
-      <div className="results-buttons">
-        <img src={saveButton} onClick={save} />
-        <img src={againButton} onClick={clear} />
       </div>
       <div style={{ width: "80vw" }}>
         <h2>debug</h2>

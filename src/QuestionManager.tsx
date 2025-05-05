@@ -22,9 +22,11 @@ import {
 } from "./AllQuestions";
 import Results from "./Results";
 import { useCallback } from "react";
+import Intro from "./Intro";
 
 export function QuestionManager() {
   const QUESTIONS_IN_ORDER = [
+    <></>,
     <Question1 />,
     <Question2 />,
     <Question3 />,
@@ -65,6 +67,10 @@ export function QuestionManager() {
 
   if (currentQuestion >= QUESTIONS_IN_ORDER.length) {
     return <Results />;
+  }
+
+  if (currentQuestion === 0) {
+    return <Intro />;
   }
 
   return (
