@@ -1,5 +1,5 @@
 import { useAtomValue, useSetAtom } from "jotai";
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import { currentStateAtom, MBTIScore } from "./atoms";
 import { MBTIType } from "./consts";
 import * as htmlToImage from "html-to-image";
@@ -47,6 +47,7 @@ const Results: React.FC = () => {
   const setCurrentState = useSetAtom(currentStateAtom);
   const mbtiScores = arrayToScore(mbtis);
   const mbtiString = actualMBTI(mbtiScores);
+  const [isSaving, setIsSaving] = useState(false);
 
   const clear = useCallback(() => {
     setCurrentState({
@@ -55,18 +56,16 @@ const Results: React.FC = () => {
     });
   }, [setCurrentState]);
 
-  const [isSaving, setIsSaving] = React.useState(false);
-
   const save = useCallback(async () => {
     setIsSaving(true);
     const node = document.getElementById("results-save");
     if (node) {
-      // freaking safari
+
       await htmlToImage.toPng(node);
       await htmlToImage.toPng(node);
       await htmlToImage.toPng(node);
-      const result = await htmlToImage.toPng(node);
-      download(result, "transit.png");
+      const dataUrl = await htmlToImage.toPng(node);
+      download(dataUrl, "transit.png");
     }
     setIsSaving(false);
   }, []);
@@ -85,15 +84,12 @@ const Results: React.FC = () => {
             </div>
           </div>
         </div>
-        <div className="results-buttons">
-        {
-          !isSaving && (<>
-              <img src={saveButton} onClick={save} />
-              <img src={againButton} onClick={clear} />
-              </>
-            )
-          }
+        {!isSaving && (
+          <div className="results-buttons">
+            <img src={saveButton} onClick={save} />
+            <img src={againButton} onClick={clear} />
           </div>
+        )}
         <img src={ncontent} className="results-content" />
       </div>
       <div style={{ width: "80vw" }}>

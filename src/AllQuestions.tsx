@@ -43,15 +43,15 @@ export function Question1() {
       title={"The journey back"}
       paragraphs={[
         "You’re in an unfamiliar SF neighborhood. Your stomach is satisfied after a delicious meal with your friends.",
-        "While the vibes are high, the sun is far down. It’s time to say goodbye and grab a ride back home.",
+        "While the vibes are high, the sun is far down. It’s time to grab a ride back home. How do you say goodbye?",
       ]}
       option1={{
-        text: "lemme know the next time yall hang out",
+        text: "“lemme know the next time yall hang out”",
         mbti: "J",
       }}
       option2={{
-        text: "let’s see each other next week!",
-        mbti: "P",
+        text: "“same time next week?”",
+        mbti: "J",
       }}
     >
       <img className="big-image" src={skyline} />
@@ -102,11 +102,11 @@ export function Question3() {
         "Your phone buzzes alive. There’s an imminent thunderstorm warning for San Francisco. You gaze outside as the rain pounds on the robotaxi’s windows. You’re a little nervous.",
       ]}
       option1={{
-        text: "check the weather and radar on your phone",
+        text: "check the forecast to see how long this will last",
         mbti: "T",
       }}
       option2={{
-        text: "see if your friends texted you about the weather or not",
+        text: "scroll the social feeds to see how others are feeling",
         mbti: "F",
       }}
     >
@@ -133,11 +133,11 @@ export function Question4() {
         "The robotaxi screens glitch, then turn black. Your phone sputters and shuts off. The robotaxi starts accelerating.",
       ]}
       option1={{
-        text: "aggressively tap the screen",
+        text: "investigate the screen for a power button, maybe something can restart it",
         mbti: "S",
       }}
       option2={{
-        text: "furiously fidget with the door handle",
+        text: "get out NOW! furiously pry the door handle",
         mbti: "N",
       }}
     >
@@ -165,11 +165,11 @@ export function Question5() {
         "You jump out of the robotaxi and it drives away. Your phone is dead and it’s pouring rain outside.",
       ]}
       option1={{
-        text: "sob or shout into the void",
+        text: "softly say your favorite swear word",
         mbti: "F",
       }}
       option2={{
-        text: "try to power on your phone with no success",
+        text: "press buttons on your phone and hope for a miracle",
         mbti: "T",
       }}
     >
@@ -195,11 +195,11 @@ export function Question6() {
         "What do you do?",
       ]}
       option1={{
-        text: "check the map to determine where you are",
+        text: "investigate the shelter for a soggy map or schedule",
         mbti: "T",
       }}
       option2={{
-        text: "look outside to see if a bus is coming soon",
+        text: "scan the road for headlights or loud noises",
         mbti: "F",
       }}
     >
@@ -222,14 +222,14 @@ export function Question7() {
       title={"Leap of faith"}
       paragraphs={[
         "A bus arrives, and the doors open with a familiar incandescent hue.",
-        "The only thing between you and the bus is a monstrously sized puddle. The distance between you and the bus looks immeasurable.",
+        "The only thing between you and the bus is a monstrously sized puddle. It seems juuuust reachable.",
       ]}
       option1={{
-        text: "take the leap of faith and risk both shoes getting soaked",
+        text: "take the leap of faith and risk soaking your shoes",
         mbti: "P",
       }}
       option2={{
-        text: "put one foot into the puddle and accept your fate",
+        text: "walk around the puddle to the back of the bus",
         mbti: "J",
       }}
     >
@@ -307,11 +307,11 @@ export function Question10() {
         "Your next challenge -- there’s only one seat left, it’s between two strangers. Do you sit in the empty seat?",
       ]}
       option1={{
-        text: "my legs are tired - let’s sit",
+        text: "sit and offer a light nod",
         mbti: "E",
       }}
       option2={{
-        text: "it’s ok.... i’ll stand",
+        text: "stand to avoid an interaction with randos",
         mbti: "I",
       }}
     >
@@ -334,11 +334,11 @@ export function Question11() {
         "You instead choose to look out the window as the lights of endless houses dance by.",
       ]}
       option1={{
-        text: "i wonder if i can recognize a street sign out there",
+        text: "scan for a street name that sounds familiar",
         mbti: "S",
       }}
       option2={{
-        text: "there’s so much in the city i haven’t seen before, wow!",
+        text: "soak in how much of the city you haven't explored yet",
         mbti: "N",
       }}
     >
@@ -371,7 +371,7 @@ export function Question12() {
       number={12}
       title={"Eye contact"}
       paragraphs={[
-        "As you take a break from gazing outside and look around inside the bus, you accidentally make awkward eye contact with another rider’s old, wise, grey eyes.",
+        "As you take a break from gazing outside and look around inside the bus, you make eye contact with another rider’s old, wise, grey eyes.",
         "They warmly look back at you.",
       ]}
       option1={{
@@ -379,7 +379,7 @@ export function Question12() {
         mbti: "E",
       }}
       option2={{
-        text: "immediately look away",
+        text: "glance back out the window",
         mbti: "I",
       }}
     >
@@ -398,11 +398,11 @@ export function Question13() {
         "The rider waits attentively.",
       ]}
       option1={{
-        text: "look i’m just tryna get home",
+        text: "uhhh, next time maybe?",
         mbti: "I",
       }}
       option2={{
-        text: "sure i’ll answer it",
+        text: "sure i’ll take a stab",
         mbti: "E",
       }}
     >
@@ -440,11 +440,11 @@ export function Question15() {
         "The stranger hands you a business card and leaves.",
       ]}
       option1={{
-        text: "toss the business card. you own enough pants",
+        text: "neatly tuck it into your wallet",
         mbti: "J",
       }}
       option2={{
-        text: "keep the business card, maybe you’ll need more pants",
+        text: "snap a quick photo of it",
         mbti: "P",
       }}
     >
@@ -475,11 +475,11 @@ export function Question16() {
         "Do you thank the bus driver?",
       ]}
       option1={{
-        text: "thank you!!",
+        text: "say “thank you!“ out loud",
         mbti: "E",
       }}
       option2={{
-        text: "immediately walk out the door",
+        text: "thank the bus driver in your head",
         mbti: "I",
       }}
     >
@@ -512,11 +512,11 @@ export function Question17() {
         "You had no idea this view was just two blocks from your house, what an amazing discovery!",
       ]}
       option1={{
-        text: "i wish i could take in the view for longer",
+        text: "let the view and the peace slowly overtake you",
         mbti: "I",
       }}
       option2={{
-        text: "i wish i could bring my friends here",
+        text: "bring a friend to mind that you wish could be here",
         mbti: "E",
       }}
     >
