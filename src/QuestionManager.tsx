@@ -4,7 +4,6 @@ import {
   currentStateAtom,
   currentTextColorAtom,
 } from "./atoms";
-import muni from "./assets/img/muni.svg";
 import {
   Question1,
   Question2,
