@@ -157,7 +157,8 @@ const Modal = ({
 };
 
 function getImgUrl(name: string) {
-  return new URL(`${name}`, import.meta.url).href;
+  // we slap the photos in the public folder
+  return `/results/${name}`;
 }
 
 function getImagesForPersonalityId(personalityId: FinalResultId): {
@@ -166,9 +167,9 @@ function getImagesForPersonalityId(personalityId: FinalResultId): {
   contentURL: string;
 } {
   return {
-    ticketURL: getImgUrl(`./assets/results/${personalityId}/ticket.png`),
-    titleURL: getImgUrl(`./assets/results/${personalityId}/title.png`),
-    contentURL: getImgUrl(`./assets/results/${personalityId}/content.png`),
+    ticketURL: getImgUrl(`${personalityId}/ticket.png`),
+    titleURL: getImgUrl(`${personalityId}/title.png`),
+    contentURL: getImgUrl(`${personalityId}/content.png`),
   };
 }
 
@@ -290,13 +291,11 @@ const Results: React.FC = () => {
             </>
           )}
           <img src={contentURL} className="results-content" />
-          <div style={{ width: "80vw" }}>
-            <h2>debug</h2>
-            <p>{mbtiString}</p>
-            <p style={{ wordBreak: "break-all" }}>
-              {JSON.stringify(mbtiScores)}
-            </p>
-          </div>
+        </div>
+        <div style={{ width: "80vw" }}>
+          <h2>debug</h2>
+          <p>{mbtiString}</p>
+          <p style={{ wordBreak: "break-all" }}>{JSON.stringify(mbtiScores)}</p>
         </div>
       </div>
     </>
