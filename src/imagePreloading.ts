@@ -36,7 +36,14 @@ import p2p from "./assets/p2p.png";
 import endDark from "./assets/img/end-dark.png";
 import endLight from "./assets/img/end-light.png";
 
-const ALL_IMAGES = [fullBus,loadingTag,tagHere,spinner,startButton,introText,skyline,
+const ALL_IMAGES = [
+  fullBus,
+  loadingTag,
+  tagHere,
+  spinner,
+  startButton,
+  introText,
+  skyline,
   waymo,
   iphone,
   thunderstorm,
@@ -65,7 +72,8 @@ const ALL_IMAGES = [fullBus,loadingTag,tagHere,spinner,startButton,introText,sky
   meme,
   p2p,
   endDark,
-  endLight]
+  endLight,
+];
 
 export const usePreloadAllImages = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -75,18 +83,46 @@ export const usePreloadAllImages = () => {
       return new Promise<void>((resolve, reject) => {
         const img = new Image();
         img.src = src;
-        img.onload = () => {console.log("loaded", src); resolve()};
+        img.onload = () => {
+          console.log("loaded", src);
+          resolve();
+        };
         img.onerror = () => reject();
       });
     });
     await Promise.all(promises);
     setIsLoading(false);
   };
-  
+
   useEffect(() => {
     cacheImages(ALL_IMAGES);
   }, []);
 
   return isLoading;
-}
+};
 
+export const usePreloadSomeImages = (images: string[]) => {
+  const [isLoading, setIsLoading] = useState(true);
+
+  const cacheImages = async (srcArray: string[]): Promise<void> => {
+    const promises = srcArray.map((src) => {
+      return new Promise<void>((resolve, reject) => {
+        const img = new Image();
+        img.src = src;
+        img.onload = () => {
+          console.log("loaded", src);
+          resolve();
+        };
+        img.onerror = () => reject();
+      });
+    });
+    await Promise.all(promises);
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
+    cacheImages(images);
+  }, [images]);
+
+  return isLoading;
+};

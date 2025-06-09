@@ -12,6 +12,7 @@
 .results-header {
   width: 100%;
   height: auto;
+  overflow: hidden;
   position: relative;
 }
 
@@ -137,12 +138,11 @@
   cursor: pointer;
 }
 
-
 .modal-outer {
   position: fixed;
   height: 100vh;
   width: 100vw;
-  background-color: rgba(0,0,0,0.5);
+  background-color: rgba(0, 0, 0, 0.5);
   pointer-events: auto;
   z-index: 10;
 }
@@ -162,19 +162,20 @@
 
 .modal-inner > * {
   margin: 0.5rem 1rem;
+  font-family: "Fuzzy Bubbles", sans-serif;
 }
 
 .modal-inner > img {
   width: calc(100% - 2rem);
   height: auto;
-  border: #579DB6 solid 4px;
+  border: #579db6 solid 4px;
   box-sizing: border-box;
 }
 
 .fake-link {
   text-decoration: underline;
   cursor: pointer;
-  color: #579DB6;
+  color: #579db6;
 }
 
 .close-icon {
@@ -188,4 +189,14 @@
 
 .stop-scroll {
   overflow: hidden;
+}
+
+.loading-results-outer {
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #eaeff2;
+  height: 100vh;
+  width: 100vw;
 }
