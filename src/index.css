@@ -44,6 +44,7 @@ body {
   justify-content: center;
   min-height: 100dvh;
   background-color: #000;
+  width: 100vw;
 }
 
 h1 {

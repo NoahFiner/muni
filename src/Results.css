@@ -136,3 +136,56 @@
   width: auto;
   cursor: pointer;
 }
+
+
+.modal-outer {
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
+  background-color: rgba(0,0,0,0.5);
+  pointer-events: auto;
+  z-index: 10;
+}
+
+.modal-inner {
+  position: relative;
+  height: calc(100vh - 4rem);
+  width: calc(100vw - 4rem);
+  margin: 2rem;
+  padding-top: 0.5rem;
+  overflow: scroll;
+  background-color: #c1c9ce;
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-inner > * {
+  margin: 0.5rem 1rem;
+}
+
+.modal-inner > img {
+  width: calc(100% - 2rem);
+  height: auto;
+  border: #579DB6 solid 4px;
+  box-sizing: border-box;
+}
+
+.fake-link {
+  text-decoration: underline;
+  cursor: pointer;
+  color: #579DB6;
+}
+
+.close-icon {
+  cursor: pointer;
+  position: absolute;
+  top: 1rem;
+  right: 0rem;
+  height: 32px;
+  width: 32px;
+}
+
+.stop-scroll {
+  overflow: hidden;
+}
