@@ -122,12 +122,12 @@
 .window {
   position: absolute;
   top: 20px;
-  left: -46vw;
-  width: 182vw;
+  left: -46%;
+  width: 182%;
 }
 
 .driving-background {
-  width: 294vw;
+  width: 294%;
   top: 108px;
   left: 0;
   position: absolute;
@@ -145,7 +145,7 @@
     left: 0;
   }
   100% {
-    left: -146.65vw;
+    left: -146.65%;
   }
 }
 @keyframes starsAnimate {
@@ -153,13 +153,13 @@
     left: 0;
   }
   100% {
-    left: -178.3vw;
+    left: -178.3%;
   }
 }
 
 .eyeballs {
   width: 95%;
-  height: 50vh;
+  height: 50%;
   left: 5%;
   top: 1rem;
   position: relative;
@@ -191,17 +191,17 @@
 }
 
 .ending-image {
-  width: 113vw;
+  width: 113%;
   height: auto;
-  left: -5vw;
-  top: 14vw;
+  left: -5%;
+  top: 6%;
   position: absolute;
 }
 
 .full-bus {
-  height: 60vw;
+  height: 31%;
   width: auto;
-  left: 1vw;
-  top: 27vw;
+  left: 1%;
+  bottom: 45%;
   position: absolute;
 }

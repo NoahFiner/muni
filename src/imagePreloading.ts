@@ -84,7 +84,6 @@ export const usePreloadAllImages = () => {
         const img = new Image();
         img.src = src;
         img.onload = () => {
-          console.log("loaded", src);
           resolve();
         };
         img.onerror = () => reject();
@@ -110,7 +109,6 @@ export const usePreloadSomeImages = (images: string[]) => {
         const img = new Image();
         img.src = src;
         img.onload = () => {
-          console.log("loaded", src);
           resolve();
         };
         img.onerror = () => reject();

@@ -24,26 +24,36 @@ const Intro: React.FC = () => {
     });
   }, [setCurrentState]);
 
-  const [introState, setIntroState] = useState<'loading' | 'ready' | 'intro'>('loading');
+  const [introState, setIntroState] = useState<"loading" | "ready" | "intro">(
+    "loading",
+  );
 
-  const isPreloading = usePreloadAllImages()
+  const isPreloading = usePreloadAllImages();
 
   useEffect(() => {
-    if(!isPreloading && introState === 'loading') {
+    if (!isPreloading && introState === "loading") {
       setIntroState("ready");
     }
-  }, [introState, isPreloading])
+  }, [introState, isPreloading]);
 
   const valueWithInterval = useAnimatedValue(2, 600);
 
-  const scale = introState === 'loading' ? valueWithInterval === 0 ? "0.8" : "0.9" : valueWithInterval === 0 ? "1.2" : "1.1";
-  const opacity = introState === 'loading' ? "0.8" : "1";
+  const scale =
+    introState === "loading"
+      ? valueWithInterval === 0
+        ? "0.8"
+        : "0.9"
+      : valueWithInterval === 0
+        ? "1.2"
+        : "1.1";
+  const opacity = introState === "loading" ? "0.8" : "1";
 
   return (
     <div className="intro-outer">
-      { introState === 'intro' ? (
-          <AnimatePresence>
+      {introState === "intro" ? (
+        <AnimatePresence>
           <motion.img
+            key="motion-image"
             initial={{ y: -20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{
@@ -53,8 +63,10 @@ const Intro: React.FC = () => {
               bounce: 0.1,
             }}
             className="intro-text"
-            src={introText} />
+            src={introText}
+          />
           <motion.button
+            key="motion-button"
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{
@@ -69,28 +81,34 @@ const Intro: React.FC = () => {
             <img src={startButton} />
           </motion.button>
           <img className="driving-background intro-houses" src={houses} />
-            <div className="vroom">
-              <img className="vroom-inner full-bus intro-bus" src={fullBus} />
-            </div>
-          </AnimatePresence>
-        ) : (
-          <div className="loading-outer" style={{ transform: `scale(${scale}) rotate(-5deg)`, opacity, transition: "transform 0.5s ease-out, opacity 0.2s linear" }}>
-            {
-              introState === 'loading' && (
-                <div className="loading-in-out">
-                  <img src={loadingTag} className="loading-tag" />
-                  <img src={spinner} className="spinner" />
-                </div>
-              )
-            }
-            {
-              introState === 'ready' && (
-                <img src={tagHere} className="loaded-tag" onClick={() => setIntroState("intro")}/>)
-            }
+          <div className="vroom">
+            <img className="vroom-inner full-bus intro-bus" src={fullBus} />
           </div>
-        )
-      }
-      
+        </AnimatePresence>
+      ) : (
+        <div
+          className="loading-outer"
+          style={{
+            transform: `scale(${scale}) rotate(-5deg)`,
+            opacity,
+            transition: "transform 0.5s ease-out, opacity 0.2s linear",
+          }}
+        >
+          {introState === "loading" && (
+            <div className="loading-in-out">
+              <img src={loadingTag} className="loading-tag" />
+              <img src={spinner} className="spinner" />
+            </div>
+          )}
+          {introState === "ready" && (
+            <img
+              src={tagHere}
+              className="loaded-tag"
+              onClick={() => setIntroState("intro")}
+            />
+          )}
+        </div>
+      )}
     </div>
   );
 };

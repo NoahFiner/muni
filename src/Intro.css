@@ -1,6 +1,8 @@
 .intro-outer {
   height: 100dvh;
   width: 100%;
+  max-width: 550px;
+  max-height: 800px;
   color: white;
   background-color: #171818;
   padding: 0;
@@ -130,7 +132,6 @@
   width: auto;
   transform: translate(-50%, -50%);
 }
-
 
 @keyframes spinAndCenter {
   0% {
