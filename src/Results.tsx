@@ -292,17 +292,16 @@ const Results: React.FC = () => {
           )}
           <img src={contentURL} className="results-content" />
           <p className="watermark">
-            get your transit astrology as well at{" "}
-            <strong>www.sftransit.fun</strong>!!!
+            <strong>www.sftransit.fun</strong>
           </p>
         </div>
-        <p className="watermark watermark-small">
+        {/* <p className="watermark watermark-small">
           questions or feedback? shoot an email to sftransitquizdude@gmail.com.
         </p>
         <p className="watermark watermark-small">
           transit is a cultural staple of san francisco and essential for it to
           flourish. without public transit, sf would be cooked.
-        </p>
+        </p> */}
         <div style={{ width: "80vw" }}>
           <h2>debug</h2>
           <p>{mbtiString}</p>
