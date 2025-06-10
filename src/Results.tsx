@@ -125,6 +125,11 @@ const CloseIcon = () => (
   </svg>
 );
 
+function isMobileSafari() {
+  const userAgent = navigator.userAgent;
+  return /iPad|iPhone|iPod/.test(userAgent) && /AppleWebKit/.test(userAgent);
+}
+
 const Modal = ({
   modalOpenUrl,
   closeModal,
@@ -138,7 +143,10 @@ const Modal = ({
         <CloseIcon />
       </div>
       <p style={{ width: "calc(100% - 40px - 3rem)" }}>
-        If you're on desktop, download your results{" "}
+        Hold down on your results image to save it to your camera roll.
+      </p>
+      <p>
+        If that doesn't work, download your results{" "}
         <strong
           className="fake-link"
           onClick={() => download(modalOpenUrl, "transit.png")}
@@ -146,10 +154,6 @@ const Modal = ({
           by clicking here
         </strong>
         .
-      </p>
-      <p>
-        If you're on mobile, hold down on your results image until you have an
-        option to save it to your camera roll.
       </p>
       <img src={modalOpenUrl} />
     </div>
@@ -238,7 +242,11 @@ const Results: React.FC = () => {
       await htmlToImage.toPng(node);
       await htmlToImage.toPng(node);
       const dataUrl = await htmlToImage.toPng(node);
-      setModalOpenUrl(dataUrl);
+      if (isMobileSafari()) {
+        setModalOpenUrl(dataUrl);
+      } else {
+        download(dataUrl, "transit.png");
+      }
     }
     setIsSaving(false);
   }, [setModalOpenUrl]);
@@ -270,7 +278,10 @@ const Results: React.FC = () => {
             </motion.div>
           )}
         </AnimatePresence>
-        <div id="results-save">
+        <div
+          id="results-save"
+          className={modalOpenUrl ? "no-pointer-events" : ""}
+        >
           <div className="results-header">
             <img src={titleURL} className="results-title" />
             <div className="ticket-animation">
@@ -291,9 +302,13 @@ const Results: React.FC = () => {
             </>
           )}
           <img src={contentURL} className="results-content" />
-          <p className="watermark">
-            <strong>www.sftransit.fun</strong>
-          </p>
+          {isSaving && (
+            <p className="watermark">
+              <p>
+                get ur own transit astrology <strong>www.sftransit.fun</strong>
+              </p>
+            </p>
+          )}
         </div>
         {/* <p className="watermark watermark-small">
           questions or feedback? shoot an email to sftransitquizdude@gmail.com.

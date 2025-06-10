@@ -221,8 +221,7 @@ export function Question7() {
       number={7}
       title={"Leap of faith"}
       paragraphs={[
-        "A bus arrives, and the doors open with a familiar incandescent hue.",
-        "The only thing between you and the bus is a monstrously sized puddle. It seems juuuust reachable.",
+        "A bus arrives, however between you and the door is a monstrously sized puddle. The gap seems juuuust reachable.",
       ]}
       option1={{
         text: "take the leap of faith and risk soaking your shoes",
@@ -398,12 +397,12 @@ export function Question13() {
         "The rider waits attentively.",
       ]}
       option1={{
-        text: "uhhh, next time maybe?",
-        mbti: "I",
-      }}
-      option2={{
         text: "sure i’ll take a stab",
         mbti: "E",
+      }}
+      option2={{
+        text: "uhhhmh...",
+        mbti: "I",
       }}
     >
       <img className="questions-riddle-image" src={questions} />
@@ -516,7 +515,7 @@ export function Question17() {
         mbti: "I",
       }}
       option2={{
-        text: "bring a friend to mind that you wish could be here",
+        text: "think of a friend you wish could be here",
         mbti: "E",
       }}
     >

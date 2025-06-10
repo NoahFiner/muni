@@ -9,6 +9,10 @@
   background-color: #eaeff2;
 }
 
+.no-pointer-events {
+  pointer-events: none;
+}
+
 .results-header {
   width: 100%;
   height: auto;
@@ -174,6 +178,7 @@
   box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3);
   display: flex;
   flex-direction: column;
+  z-index: 100;
 }
 
 .modal-inner > * {
@@ -215,4 +220,8 @@
   background-color: #eaeff2;
   height: 100vh;
   width: 100vw;
+}
+
+.results-outer p {
+  color: #000;
 }
