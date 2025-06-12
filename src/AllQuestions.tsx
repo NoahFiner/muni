@@ -306,11 +306,11 @@ export function Question10() {
         "Your next challenge -- there’s only one seat left, it’s between two strangers. Do you sit in the empty seat?",
       ]}
       option1={{
-        text: "sit and offer a light nod",
+        text: "give them a light nod and sit between",
         mbti: "E",
       }}
       option2={{
-        text: "stand to avoid an interaction with randos",
+        text: "stand and enjoy your extra space",
         mbti: "I",
       }}
     >
@@ -375,11 +375,11 @@ export function Question12() {
       ]}
       option1={{
         text: "give a light smile",
-        mbti: "E",
+        mbti: undefined,
       }}
       option2={{
         text: "glance back out the window",
-        mbti: "I",
+        mbti: undefined,
       }}
     >
       <OldManEyes />
@@ -398,11 +398,11 @@ export function Question13() {
       ]}
       option1={{
         text: "sure i’ll take a stab",
-        mbti: "E",
+        mbti: undefined,
       }}
       option2={{
         text: "uhhhmh...",
-        mbti: "I",
+        mbti: undefined,
       }}
     >
       <img className="questions-riddle-image" src={questions} />
