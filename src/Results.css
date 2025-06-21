@@ -126,8 +126,9 @@
   width: 94%;
   margin-left: 3%;
   font-size: 1.5rem;
-  margin-top: -1rem;
+  margin-top: -3rem;
   margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
   text-align: center;
   font-family: "Fuzzy Bubbles", sans-serif;
 }
@@ -135,6 +136,8 @@
 .watermark-small {
   font-size: 1rem;
   margin-top: 1rem;
+  width: 80%;
+  margin-left: 10%;
 }
 
 .results-buttons {

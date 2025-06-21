@@ -445,18 +445,18 @@ const Results: React.FC = () => {
             </p>
           )}
         </div>
-        {/* <p className="watermark watermark-small">
-          questions or feedback? shoot an email to sftransitquizdude@gmail.com.
-        </p>
         <p className="watermark watermark-small">
+          questions or feedback? shoot an email to admin@sftransit.fun
+        </p>
+        {/*<p className="watermark watermark-small">
           transit is a cultural staple of san francisco and essential for it to
           flourish. without public transit, sf would be cooked.
         </p> */}
-        <div style={{ width: "80vw" }}>
+        {/* <div style={{ width: "80vw" }}>
           <h2>debug</h2>
           <p>{mbtiString}</p>
           <p style={{ wordBreak: "break-all" }}>{JSON.stringify(mbtiScores)}</p>
-        </div>
+        </div> */}
       </div>
     </>
   );
