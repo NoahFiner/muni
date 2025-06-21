@@ -11,6 +11,7 @@ CREATE TABLE quiz_responses (
   personality_result TEXT NOT NULL,
   responses JSONB NOT NULL,
   completion_time_seconds REAL NOT NULL,
+  times_submitted INTEGER NOT NULL DEFAULT 1,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
@@ -27,7 +28,10 @@ UNIQUE (personality_result, completion_time_seconds);
 -- If you already have the table with INTEGER completion_time_seconds, run this to update:
 -- ALTER TABLE quiz_responses ALTER COLUMN completion_time_seconds TYPE REAL;
 
--- Function to calculate personality percentage efficiently
+-- If you already have the table without times_submitted column, run this to add it:
+-- ALTER TABLE quiz_responses ADD COLUMN times_submitted INTEGER NOT NULL DEFAULT 1;
+
+-- Function to calculate personality percentage efficiently (first-time submissions only)
 CREATE OR REPLACE FUNCTION get_personality_percentage(
   p_personality_result TEXT
 ) RETURNS REAL AS $$
@@ -36,17 +40,51 @@ DECLARE
   personality_count INTEGER;
   percentage REAL;
 BEGIN
-  -- Get total count of all responses
-  SELECT COUNT(*) INTO total_count FROM quiz_responses;
+  -- Get total count of first-time submissions only
+  SELECT COUNT(*) INTO total_count
+  FROM quiz_responses
+  WHERE times_submitted = 1;
 
-  -- Get count for specific personality type
+  -- Get count for specific personality type (first-time submissions only)
   SELECT COUNT(*) INTO personality_count
   FROM quiz_responses
-  WHERE personality_result = p_personality_result;
+  WHERE personality_result = p_personality_result
+    AND times_submitted = 1;
 
   -- Calculate percentage
   IF total_count > 0 THEN
     percentage := (personality_count::REAL / total_count::REAL) * 100.0;
+  ELSE
+    percentage := 0.0;
+  END IF;
+
+  RETURN percentage;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Optimistic version of the function for faster UI updates (first-time submissions only)
+CREATE OR REPLACE FUNCTION get_personality_percentage_optimistic(
+  p_personality_result TEXT
+) RETURNS REAL AS $$
+DECLARE
+  total_count INTEGER;
+  personality_count INTEGER;
+  percentage REAL;
+BEGIN
+  -- Get total count of first-time submissions only
+  SELECT COUNT(*) INTO total_count
+  FROM quiz_responses
+  WHERE times_submitted = 1;
+
+  -- Get count for specific personality type (first-time submissions only)
+  SELECT COUNT(*) INTO personality_count
+  FROM quiz_responses
+  WHERE personality_result = p_personality_result
+    AND times_submitted = 1;
+
+  -- Calculate percentage
+  IF total_count > 0 THEN
+    percentage := ((personality_count::REAL + 1.0) / (total_count::REAL + 1.0)) * 100.0;
   ELSE
     percentage := 0.0;
   END IF;
@@ -109,6 +147,21 @@ SELECT personality_result,
        get_personality_percentage(personality_result) as percentage
 FROM (SELECT DISTINCT personality_result FROM quiz_responses) AS types
 ORDER BY percentage DESC;
+
+-- Get personality distribution for first-time submissions only
+SELECT personality_result, COUNT(*) as count,
+       ROUND(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER (), 1) as percentage
+FROM quiz_responses
+WHERE times_submitted = 1
+GROUP BY personality_result
+ORDER BY count DESC;
+
+-- Analyze submission frequency patterns
+SELECT times_submitted, COUNT(*) as count,
+       ROUND(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER (), 1) as percentage
+FROM quiz_responses
+GROUP BY times_submitted
+ORDER BY times_submitted;
 ```
 
 ## 4. Environment Variables

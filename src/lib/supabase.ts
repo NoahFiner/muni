@@ -19,12 +19,14 @@ export type Database = {
           personality_result: string;
           responses: Array<{ question: number; response: string }>;
           completion_time_seconds: number;
+          times_submitted: number;
           created_at: string;
         };
         Insert: {
           personality_result: string;
           responses: Array<{ question: number; response: string }>;
           completion_time_seconds: number;
+          times_submitted: number;
           id?: string;
           created_at?: string;
         };
@@ -33,6 +35,7 @@ export type Database = {
           personality_result?: string;
           responses?: Array<{ question: number; response: string }>;
           completion_time_seconds?: number;
+          times_submitted?: number;
           created_at?: string;
         };
       };

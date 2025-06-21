@@ -5,6 +5,7 @@ import {
   MBTIScore,
   hasSubmittedStatsAtom,
   quizStartTimeAtom,
+  timesSubmittedAtom,
 } from "./atoms";
 import { MBTIType } from "./consts";
 import * as htmlToImage from "html-to-image";
@@ -232,6 +233,8 @@ const Results: React.FC = () => {
   const hasSubmittedStats = useAtomValue(hasSubmittedStatsAtom);
   const setHasSubmittedStats = useSetAtom(hasSubmittedStatsAtom);
   const quizStartTime = useAtomValue(quizStartTimeAtom);
+  const timesSubmitted = useAtomValue(timesSubmittedAtom);
+  const setTimesSubmitted = useSetAtom(timesSubmittedAtom);
   const mbtiScores = arrayToScore(mbtis);
   const mbtiString = actualMBTI(mbtiScores);
   const finalResultId = personalityToFinalResultId[mbtiString];
@@ -319,11 +322,16 @@ const Results: React.FC = () => {
         // Calculate completion time in seconds with millisecond precision
         const completionTimeSeconds = (Date.now() - quizStartTime) / 1000;
 
+        // Increment the times_submitted counter
+        const newTimesSubmitted = timesSubmitted + 1;
+        setTimesSubmitted(newTimesSubmitted);
+
         // Prepare the quiz response data
         const quizResponseData: QuizResponseInsert = {
           personality_result: mbtiString,
           responses: responses,
           completion_time_seconds: completionTimeSeconds,
+          times_submitted: newTimesSubmitted,
         };
 
         // Submit the complete quiz response
@@ -363,7 +371,9 @@ const Results: React.FC = () => {
     hasSubmittedStats,
     quizStartTime,
     mbtis,
+    timesSubmitted,
     setHasSubmittedStats,
+    setTimesSubmitted,
   ]);
 
   const clear = useCallback(() => {
