@@ -1,4 +1,14 @@
-export type MBTIType = "I" | "E" | "S" | "N" | "T" | "F" | "J" | "P" | "_";
+export type MBTIType =
+  | "I"
+  | "E"
+  | "S"
+  | "N"
+  | "T"
+  | "F"
+  | "J"
+  | "P"
+  | "1"
+  | "2";
 
 export type Choice = {
   text: string;

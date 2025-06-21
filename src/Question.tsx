@@ -61,13 +61,13 @@ export default function Question({
   const setCurrentState = useSetAtom(currentStateAtom);
 
   const onClick = useCallback(
-    (mbti?: MBTIType) => {
+    (mbti: MBTIType | undefined, fallback: "1" | "2") => {
       setCurrentState((prev) => {
         const nextmbtis = [...prev.mbtis];
         if (mbti) {
           nextmbtis.push(mbti);
         } else {
-          nextmbtis.push("_");
+          nextmbtis.push(fallback);
         }
         return {
           currentQuestion: prev.currentQuestion + 1,
@@ -75,7 +75,7 @@ export default function Question({
         };
       });
     },
-    [setCurrentState]
+    [setCurrentState],
   );
 
   return (
@@ -95,13 +95,13 @@ export default function Question({
         <div className="button-group">
           <button
             className="option-button"
-            onClick={() => onClick(option1.mbti)}
+            onClick={() => onClick(option1.mbti, "1")}
           >
             <ChoiceContent text={option1.text} />
           </button>
           <button
             className="option-button"
-            onClick={() => onClick(option2.mbti)}
+            onClick={() => onClick(option2.mbti, "2")}
           >
             <ChoiceContent text={option2.text} />
           </button>

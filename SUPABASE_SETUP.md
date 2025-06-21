@@ -1,67 +1,77 @@
 # Supabase Setup Instructions
 
-## 1. Create the Database Table
+## 1. Create the Quiz Responses Table
 
 Run this SQL in your Supabase SQL Editor:
 
 ```sql
--- Create the personality_stats table
-CREATE TABLE personality_stats (
-  personality_type TEXT PRIMARY KEY,
-  count INTEGER DEFAULT 0 NOT NULL
+-- Create the quiz_responses table for comprehensive analytics
+CREATE TABLE quiz_responses (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  personality_result TEXT NOT NULL,
+  responses JSONB NOT NULL,
+  completion_time_seconds REAL NOT NULL,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
--- Insert initial data for all 16 MBTI personality types
-INSERT INTO personality_stats (personality_type, count) VALUES
-('INTJ', 0),
-('INTP', 0),
-('ENTJ', 0),
-('ENTP', 0),
-('INFJ', 0),
-('INFP', 0),
-('ENFJ', 0),
-('ENFP', 0),
-('ISTJ', 0),
-('ISFJ', 0),
-('ESTJ', 0),
-('ESFJ', 0),
-('ISTP', 0),
-('ISFP', 0),
-('ESTP', 0),
-('ESFP', 0);
+-- Create index for faster queries on personality results
+CREATE INDEX idx_quiz_responses_personality ON quiz_responses(personality_result);
+CREATE INDEX idx_quiz_responses_created_at ON quiz_responses(created_at);
+
+-- Add unique constraint to prevent duplicate submissions from same session
+-- This uses personality_result + completion_time_seconds (with millisecond precision) as uniqueness check
+ALTER TABLE quiz_responses 
+ADD CONSTRAINT unique_quiz_session 
+UNIQUE (personality_result, completion_time_seconds);
+
+-- If you already have the table with INTEGER completion_time_seconds, run this to update:
+-- ALTER TABLE quiz_responses ALTER COLUMN completion_time_seconds TYPE REAL;
 ```
 
-## 2. Create the SQL Function
-
-Run this SQL to create the increment function:
+## 2. Set up Row Level Security (RLS)
 
 ```sql
--- Create function to increment personality count
-CREATE OR REPLACE FUNCTION increment_personality_count(personality_type TEXT)
-RETURNS void
-LANGUAGE plpgsql
-AS $$
-BEGIN
-  UPDATE personality_stats
-  SET count = count + 1
-  WHERE personality_stats.personality_type = increment_personality_count.personality_type;
-END;
-$$;
-```
+-- Enable RLS on quiz_responses table
+ALTER TABLE quiz_responses ENABLE ROW LEVEL SECURITY;
 
-## 3. Set up Row Level Security (RLS)
-
-```sql
--- Enable RLS
-ALTER TABLE personality_stats ENABLE ROW LEVEL SECURITY;
-
--- Allow public read access
-CREATE POLICY "Allow public read access" ON personality_stats
+-- Allow public read access for calculating percentages
+CREATE POLICY "Allow public read access" ON quiz_responses
 FOR SELECT USING (true);
 
--- Allow public insert/update (for incrementing counts)
-CREATE POLICY "Allow public increment" ON personality_stats
-FOR ALL USING (true);
+-- Allow public insert for submitting quiz results
+CREATE POLICY "Allow public insert" ON quiz_responses
+FOR INSERT WITH CHECK (true);
+```
+
+## 3. Sample Analytics Queries
+
+Here are some useful queries for analyzing your quiz data:
+
+```sql
+-- Get personality type distribution
+SELECT personality_result, COUNT(*) as count,
+       ROUND(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER (), 1) as percentage
+FROM quiz_responses
+GROUP BY personality_result
+ORDER BY count DESC;
+
+-- Analyze response distribution for a specific question
+SELECT
+  (jsonb_array_elements(responses)->>'response') as response,
+  COUNT(*) as count
+FROM quiz_responses,
+     jsonb_array_elements(responses)
+WHERE (jsonb_array_elements(responses)->>'question')::int = 1
+GROUP BY response
+ORDER BY count DESC;
+
+-- Average completion time by personality type (with millisecond precision)
+SELECT personality_result,
+       ROUND(AVG(completion_time_seconds), 2) as avg_seconds,
+       COUNT(*) as total_responses
+FROM quiz_responses
+GROUP BY personality_result
+ORDER BY avg_seconds;
 ```
 
 ## 4. Environment Variables

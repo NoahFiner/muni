@@ -1,6 +1,11 @@
 import { useAtomValue, useSetAtom } from "jotai";
-import React, { useCallback, useEffect, useState } from "react";
-import { currentStateAtom, MBTIScore, hasSubmittedStatsAtom } from "./atoms";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import {
+  currentStateAtom,
+  MBTIScore,
+  hasSubmittedStatsAtom,
+  quizStartTimeAtom,
+} from "./atoms";
 import { MBTIType } from "./consts";
 import * as htmlToImage from "html-to-image";
 import download from "downloadjs";
@@ -13,7 +18,7 @@ import saveButton from "./assets/results/save.png";
 import { usePreloadSomeImages } from "./imagePreloading";
 import { useAnimatedValue } from "./hooks";
 import { AnimatePresence, motion } from "motion/react";
-import { supabase } from "./lib/supabase";
+import { supabase, QuizResponseInsert } from "./lib/supabase";
 
 type FinalResultId =
   | "7"
@@ -79,7 +84,8 @@ const INITIAL_MBTI_SCORE: MBTIScore = {
   F: 0,
   J: 0,
   P: 0,
-  _: 0,
+  "1": 0,
+  "2": 0,
 };
 
 const arrayToScore = (mbtis: MBTIType[]): MBTIScore => {
@@ -206,6 +212,7 @@ const Results: React.FC = () => {
   const setCurrentState = useSetAtom(currentStateAtom);
   const hasSubmittedStats = useAtomValue(hasSubmittedStatsAtom);
   const setHasSubmittedStats = useSetAtom(hasSubmittedStatsAtom);
+  const quizStartTime = useAtomValue(quizStartTimeAtom);
   const mbtiScores = arrayToScore(mbtis);
   const mbtiString = actualMBTI(mbtiScores);
   const finalResultId = personalityToFinalResultId[mbtiString];
@@ -222,6 +229,7 @@ const Results: React.FC = () => {
   const [isSaving, setIsSaving] = useState(false);
   const [modalOpenUrl, setModalOpenUrl] = useState<string>("");
   const [percentage, setPercentage] = useState<string>("");
+  const hasSubmitted = useRef(false);
 
   useEffect(() => {
     if (modalOpenUrl) {
@@ -231,75 +239,107 @@ const Results: React.FC = () => {
     }
   }, [modalOpenUrl]);
 
-  // Handle stats submission and percentage calculation
+  // Handle full response submission and percentage calculation
   useEffect(() => {
-    const submitStatsAndCalculatePercentage = async () => {
-      if (hasSubmittedStats || !mbtiString) return;
+    const submitResponsesAndCalculatePercentage = async () => {
+      if (
+        hasSubmittedStats ||
+        hasSubmitted.current ||
+        !mbtiString ||
+        !quizStartTime ||
+        mbtis.length !== 17
+      )
+        return;
 
+      // Simple approach: let database handle uniqueness
+      const submissionKey = `quiz_submitted_${mbtiString}_${quizStartTime}`;
+      
+      // Check if we already tried to submit
+      if (localStorage.getItem(submissionKey)) {
+        console.log("Already submitted from this browser session, skipping");
+        setHasSubmittedStats(true);
+        return;
+      }
+      
+      // Mark that we're about to submit (before any async operations)
+      localStorage.setItem(submissionKey, "submitting");
+      hasSubmitted.current = true;
+      
       try {
-        // Increment count for this personality type
-        const { error: upsertError } = await supabase
-          .from("personality_stats")
-          .upsert(
-            { personality_type: mbtiString, count: 1 },
-            {
-              onConflict: "personality_type",
-              ignoreDuplicates: false,
-            },
-          )
-          .select();
+        // Transform mbtis array to question-response format
+        const responses = mbtis.map((response, index) => ({
+          question: index + 1,
+          response: response,
+        }));
 
-        if (upsertError) {
-          // Try to increment existing record instead
-          const { error: rpcError } = await supabase.rpc(
-            "increment_personality_count",
-            { personality_type: mbtiString },
-          );
+        // Calculate completion time in seconds with millisecond precision
+        const completionTimeSeconds = (Date.now() - quizStartTime) / 1000;
 
-          if (rpcError) throw rpcError;
+        // Prepare the quiz response data
+        const quizResponseData: QuizResponseInsert = {
+          personality_result: mbtiString,
+          responses: responses,
+          completion_time_seconds: completionTimeSeconds,
+        };
+
+        // Submit the complete quiz response
+        const { error: insertError } = await supabase
+          .from("quiz_responses")
+          .insert(quizResponseData);
+
+        if (insertError) {
+          // Check if it's a duplicate submission error
+          if (insertError.code === '23505') { // Unique constraint violation
+            console.log("Quiz already submitted (duplicate detected by database), continuing with percentage calculation");
+          } else {
+            throw insertError;
+          }
         }
 
-        // Fetch all personality stats to calculate percentage
-        const { data: allStats, error: fetchError } = await supabase
-          .from("personality_stats")
-          .select("count");
+        // Calculate percentage by querying all responses
+        const { data: allResponses, error: fetchError } = await supabase
+          .from("quiz_responses")
+          .select("personality_result");
 
         if (fetchError) throw fetchError;
 
-        const totalCount =
-          allStats?.reduce((sum, stat) => sum + stat.count, 0) || 0;
+        const totalCount = allResponses?.length || 0;
+        const currentTypeCount =
+          allResponses?.filter(
+            (response) => response.personality_result === mbtiString,
+          ).length || 0;
 
-        // Get count for current personality type
-        const { data: currentStats, error: currentError } = await supabase
-          .from("personality_stats")
-          .select("count")
-          .eq("personality_type", mbtiString)
-          .single();
-
-        if (currentError) throw currentError;
-
-        const currentCount = currentStats?.count || 0;
         const percentageValue =
-          totalCount > 0 ? (currentCount / totalCount) * 100 : 0;
+          totalCount > 0 ? (currentTypeCount / totalCount) * 100 : 0;
 
-        // Format as exactly 4 characters (XX.XX%)
+        // Format as exactly 4 characters (XX.X%)
         const formattedPercentage =
-          percentageValue.toFixed(2).padStart(4, "0") + "%";
+          percentageValue.toFixed(1).padStart(4, "0") + "%";
         setPercentage(formattedPercentage);
 
-        // Mark as submitted
+        // Mark as fully submitted
+        localStorage.setItem(submissionKey, "submitted");
         setHasSubmittedStats(true);
+        
       } catch (error) {
         console.error(
-          "Error submitting stats or calculating percentage:",
+          "Error submitting quiz response or calculating percentage:",
           error,
         );
-        // Don't show percentage if there's an error
+        // Reset submission status on error so it can be retried
+        localStorage.removeItem(submissionKey);
+        hasSubmitted.current = false;
       }
     };
 
-    submitStatsAndCalculatePercentage();
-  }, [mbtiString, hasSubmittedStats, setHasSubmittedStats]);
+    submitResponsesAndCalculatePercentage();
+  }, [
+    mbtiString,
+    hasSubmittedStats,
+    quizStartTime,
+    mbtis,
+    setHasSubmittedStats,
+  ]);
 
   const clear = useCallback(() => {
     setCurrentState({

@@ -4,6 +4,7 @@ import {
   currentStateAtom,
   currentTextColorAtom,
   hasSubmittedStatsAtom,
+  quizStartTimeAtom,
 } from "./atoms";
 import {
   Question1,
@@ -51,8 +52,18 @@ export function QuestionManager() {
   ];
   const { currentQuestion } = useAtomValue(currentStateAtom);
   const setCurrentState = useSetAtom(currentStateAtom);
+  const setQuizStartTime = useSetAtom(quizStartTimeAtom);
+  const setHasSubmittedStats = useSetAtom(hasSubmittedStatsAtom);
 
   const backgroundColor = useAtomValue(currentBackgroundColorAtom);
+
+  // Set start time when first question is shown
+  useEffect(() => {
+    if (currentQuestion === 1) {
+      setQuizStartTime(Date.now());
+      setHasSubmittedStats(false);
+    }
+  }, [currentQuestion, setHasSubmittedStats, setQuizStartTime]);
 
   const onClickBack = useCallback(
     () =>
@@ -69,14 +80,13 @@ export function QuestionManager() {
     [setCurrentState],
   );
 
-  const onClickRestart = useCallback(
-    () =>
-      setCurrentState({
-        currentQuestion: 0,
-        mbtis: [],
-      }),
-    [setCurrentState],
-  );
+  const onClickRestart = useCallback(() => {
+    setCurrentState({
+      currentQuestion: 0,
+      mbtis: [],
+    });
+    setQuizStartTime(null);
+  }, [setCurrentState, setQuizStartTime]);
 
   if (currentQuestion >= QUESTIONS_IN_ORDER.length) {
     return <Results />;

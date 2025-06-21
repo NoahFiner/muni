@@ -46,7 +46,10 @@ export const currentTransitDecalColor = atom((get) => {
   }
 });
 
-export const hasSubmittedStatsAtom = atomWithStorage<boolean>(
-  "hasSubmittedStats",
-  false,
-);
+// export const hasSubmittedStatsAtom = atomWithStorage<boolean>(
+//   "hasSubmittedStats",
+//   false,
+// );
+export const hasSubmittedStatsAtom = atom<boolean>(false);
+
+export const quizStartTimeAtom = atom<number | null>(null);

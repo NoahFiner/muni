@@ -62,16 +62,22 @@ This is a React + TypeScript + Vite project that implements an interactive San F
 
 ### Supabase Integration
 
-**Database**: Uses Supabase for tracking personality type statistics
+**Analytics Database**: Uses Supabase for comprehensive quiz response analytics
 - `src/lib/supabase.ts` - Supabase client setup and TypeScript types
-- `personality_stats` table tracks count for each of 16 MBTI personality types
+- `quiz_responses` table stores complete user journeys: all 17 question responses + personality result + completion time
+- `quizStartTimeAtom` tracks start time for completion time calculation
 - `hasSubmittedStatsAtom` prevents duplicate submissions per session
-- Results page shows user's percentage among all quiz takers
+- Cross-tab protection: localStorage prevents duplicate submissions when multiple browser tabs are open
+- Results page shows user's percentage among all quiz takers (derived from response data)
 - Percentage format: exactly 4 characters (e.g., "12.5%" or "03.2%")
 - Error handling: console.error logs issues, hides percentage on failure
 - Session tracking resets when quiz restarts
 
-**Setup**: See `SUPABASE_SETUP.md` for database schema and RLS policies
+**Security**: Natural protection requires completing all 17 questions to submit; validates response array integrity; database unique constraint prevents duplicates using personality + completion time with millisecond precision
+
+**Analytics**: Enables rich analysis of question balance, response patterns, completion times, and personality distributions
+
+**Setup**: See `SUPABASE_SETUP.md` for database schema and sample analytics queries
 
 ### Development Notes
 
