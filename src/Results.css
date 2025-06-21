@@ -25,7 +25,8 @@
 }
 
 .results-title {
-  width: 100%;
+  width: calc(100% + 2px);
+  left: -2px;
   height: auto;
   position: relative;
   margin: 0;
