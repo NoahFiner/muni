@@ -5,7 +5,8 @@ import {
   MBTIScore,
   hasSubmittedStatsAtom,
   quizStartTimeAtom,
-  timesSubmittedAtom,
+  timesTakenAtom,
+  userIdAtom,
 } from "./atoms";
 import { MBTIType } from "./consts";
 import * as htmlToImage from "html-to-image";
@@ -233,8 +234,8 @@ const Results: React.FC = () => {
   const hasSubmittedStats = useAtomValue(hasSubmittedStatsAtom);
   const setHasSubmittedStats = useSetAtom(hasSubmittedStatsAtom);
   const quizStartTime = useAtomValue(quizStartTimeAtom);
-  const timesSubmitted = useAtomValue(timesSubmittedAtom);
-  const setTimesSubmitted = useSetAtom(timesSubmittedAtom);
+  const timesTaken = useAtomValue(timesTakenAtom);
+  const userId = useAtomValue(userIdAtom);
   const mbtiScores = arrayToScore(mbtis);
   const mbtiString = actualMBTI(mbtiScores);
   const finalResultId = personalityToFinalResultId[mbtiString];
@@ -294,22 +295,12 @@ const Results: React.FC = () => {
         hasSubmitted.current ||
         !mbtiString ||
         !quizStartTime ||
+        !userId ||
         mbtis.length !== 17
       )
         return;
 
-      // Simple approach: let database handle uniqueness
-      const submissionKey = `quiz_submitted_${mbtiString}_${quizStartTime}`;
-
-      // Check if we already tried to submit
-      if (localStorage.getItem(submissionKey)) {
-        console.log("Already submitted from this browser session, skipping");
-        setHasSubmittedStats(true);
-        return;
-      }
-
-      // Mark that we're about to submit (before any async operations)
-      localStorage.setItem(submissionKey, "submitting");
+      // Mark that we're submitting to prevent double submissions
       hasSubmitted.current = true;
 
       try {
@@ -322,16 +313,13 @@ const Results: React.FC = () => {
         // Calculate completion time in seconds with millisecond precision
         const completionTimeSeconds = (Date.now() - quizStartTime) / 1000;
 
-        // Increment the times_submitted counter
-        const newTimesSubmitted = timesSubmitted + 1;
-        setTimesSubmitted(newTimesSubmitted);
-
         // Prepare the quiz response data
         const quizResponseData: QuizResponseInsert = {
+          user_id: userId,
           personality_result: mbtiString,
           responses: responses,
           completion_time_seconds: completionTimeSeconds,
-          times_submitted: newTimesSubmitted,
+          times_submitted: timesTaken,
         };
 
         // Submit the complete quiz response
@@ -342,9 +330,9 @@ const Results: React.FC = () => {
         if (insertError) {
           // Check if it's a duplicate submission error
           if (insertError.code === "23505") {
-            // Unique constraint violation
+            // Unique constraint violation - this user already submitted this attempt
             console.log(
-              "Quiz already submitted (duplicate detected by database), continuing with percentage calculation",
+              "Quiz already submitted (duplicate detected by database)",
             );
           } else {
             throw insertError;
@@ -352,15 +340,10 @@ const Results: React.FC = () => {
         }
 
         // Mark as fully submitted
-        localStorage.setItem(submissionKey, "submitted");
         setHasSubmittedStats(true);
       } catch (error) {
-        console.error(
-          "Error submitting quiz response or calculating percentage:",
-          error,
-        );
+        console.error("Error submitting quiz response:", error);
         // Reset submission status on error so it can be retried
-        localStorage.removeItem(submissionKey);
         hasSubmitted.current = false;
       }
     };
@@ -370,10 +353,10 @@ const Results: React.FC = () => {
     mbtiString,
     hasSubmittedStats,
     quizStartTime,
+    userId,
     mbtis,
-    timesSubmitted,
+    timesTaken,
     setHasSubmittedStats,
-    setTimesSubmitted,
   ]);
 
   const clear = useCallback(() => {

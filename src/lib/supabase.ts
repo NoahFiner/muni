@@ -16,6 +16,7 @@ export type Database = {
       quiz_responses: {
         Row: {
           id: string;
+          user_id: string;
           personality_result: string;
           responses: Array<{ question: number; response: string }>;
           completion_time_seconds: number;
@@ -23,6 +24,7 @@ export type Database = {
           created_at: string;
         };
         Insert: {
+          user_id: string;
           personality_result: string;
           responses: Array<{ question: number; response: string }>;
           completion_time_seconds: number;
@@ -32,6 +34,7 @@ export type Database = {
         };
         Update: {
           id?: string;
+          user_id?: string;
           personality_result?: string;
           responses?: Array<{ question: number; response: string }>;
           completion_time_seconds?: number;

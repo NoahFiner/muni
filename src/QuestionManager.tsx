@@ -5,6 +5,7 @@ import {
   currentTextColorAtom,
   hasSubmittedStatsAtom,
   quizStartTimeAtom,
+  userIdAtom,
 } from "./atoms";
 import {
   Question1,
@@ -28,6 +29,7 @@ import {
 import Results from "./Results";
 import { useCallback, useEffect } from "react";
 import Intro from "./Intro";
+import { useTimesTaken } from "./hooks";
 
 export function QuestionManager() {
   const QUESTIONS_IN_ORDER = [
@@ -54,16 +56,33 @@ export function QuestionManager() {
   const setCurrentState = useSetAtom(currentStateAtom);
   const setQuizStartTime = useSetAtom(quizStartTimeAtom);
   const setHasSubmittedStats = useSetAtom(hasSubmittedStatsAtom);
+  const userId = useAtomValue(userIdAtom);
+  const setUserId = useSetAtom(userIdAtom);
+  
+  // Use custom hook for times taken logic
+  useTimesTaken(currentQuestion === 1, currentQuestion === 0);
 
   const backgroundColor = useAtomValue(currentBackgroundColorAtom);
 
-  // Set start time when first question is shown
+  // Set start time and generate user ID when first question is shown
   useEffect(() => {
     if (currentQuestion === 1) {
       setQuizStartTime(Date.now());
       setHasSubmittedStats(false);
+
+      // Generate user ID if it doesn't exist
+      if (!userId && !localStorage.getItem("userId")) {
+        const newUserId = crypto.randomUUID();
+        setUserId(newUserId);
+      }
     }
-  }, [currentQuestion, setHasSubmittedStats, setQuizStartTime]);
+  }, [
+    currentQuestion,
+    setHasSubmittedStats,
+    setQuizStartTime,
+    userId,
+    setUserId,
+  ]);
 
   const onClickBack = useCallback(
     () =>

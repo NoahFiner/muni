@@ -8,6 +8,7 @@ Run this SQL in your Supabase SQL Editor:
 -- Create the quiz_responses table for comprehensive analytics
 CREATE TABLE quiz_responses (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  user_id TEXT NOT NULL,
   personality_result TEXT NOT NULL,
   responses JSONB NOT NULL,
   completion_time_seconds REAL NOT NULL,
@@ -18,18 +19,26 @@ CREATE TABLE quiz_responses (
 -- Create index for faster queries on personality results
 CREATE INDEX idx_quiz_responses_personality ON quiz_responses(personality_result);
 CREATE INDEX idx_quiz_responses_created_at ON quiz_responses(created_at);
+CREATE INDEX idx_quiz_responses_user_id ON quiz_responses(user_id);
 
--- Add unique constraint to prevent duplicate submissions from same session
--- This uses personality_result + completion_time_seconds (with millisecond precision) as uniqueness check
+-- Add unique constraint to prevent duplicate submissions from same user at same submission count
 ALTER TABLE quiz_responses
-ADD CONSTRAINT unique_quiz_session
-UNIQUE (personality_result, completion_time_seconds);
+ADD CONSTRAINT unique_user_submission
+UNIQUE (user_id, times_submitted);
 
 -- If you already have the table with INTEGER completion_time_seconds, run this to update:
 -- ALTER TABLE quiz_responses ALTER COLUMN completion_time_seconds TYPE REAL;
 
 -- If you already have the table without times_submitted column, run this to add it:
 -- ALTER TABLE quiz_responses ADD COLUMN times_submitted INTEGER NOT NULL DEFAULT 1;
+
+-- If you already have the table without user_id column, run this to add it:
+-- ALTER TABLE quiz_responses ADD COLUMN user_id TEXT NOT NULL DEFAULT 'legacy-user';
+-- CREATE INDEX idx_quiz_responses_user_id ON quiz_responses(user_id);
+
+-- If you need to update from the old uniqueness constraint, run this:
+-- ALTER TABLE quiz_responses DROP CONSTRAINT IF EXISTS unique_quiz_session;
+-- ALTER TABLE quiz_responses ADD CONSTRAINT unique_user_submission UNIQUE (user_id, times_submitted);
 
 -- Function to calculate personality percentage efficiently (first-time submissions only)
 CREATE OR REPLACE FUNCTION get_personality_percentage(

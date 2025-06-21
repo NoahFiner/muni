@@ -54,7 +54,9 @@ export const hasSubmittedStatsAtom = atom<boolean>(false);
 
 export const quizStartTimeAtom = atom<number | null>(null);
 
-export const timesSubmittedAtom = atomWithStorage<number>(
-  "timesSubmitted",
-  0,
+export const timesTakenAtom = atom<number>(0);
+
+export const userIdAtom = atomWithStorage<string>(
+  "userId",
+  "", // Will be generated if empty
 );
