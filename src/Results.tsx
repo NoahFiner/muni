@@ -173,7 +173,7 @@ const Modal = ({
       </div>
       <p style={{ width: "calc(100% - 40px - 3rem)" }}>
         Downloaded your results!!! If that didn't work, try holding down on the
-        below image, then tapping "Save to camera roll".
+        below image, then tapping "Save to Photos".
       </p>
       <img src={modalOpenUrl} />
     </div>
