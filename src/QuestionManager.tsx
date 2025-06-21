@@ -30,7 +30,7 @@ import Results from "./Results";
 import { useCallback, useEffect } from "react";
 import Intro from "./Intro";
 import { useTimesTaken } from "./hooks";
-import { trackQuizStart, trackQuizDropoff } from "./analytics.js";
+import { trackQuizStart, trackQuizDropoff } from "./analytics.ts";
 
 export function QuestionManager() {
   const QUESTIONS_IN_ORDER = [

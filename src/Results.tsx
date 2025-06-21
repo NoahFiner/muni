@@ -21,7 +21,7 @@ import { usePreloadSomeImages } from "./imagePreloading";
 import { useAnimatedValue } from "./hooks";
 import { AnimatePresence, motion } from "motion/react";
 import { supabase, QuizResponseInsert } from "./lib/supabase";
-import { trackQuizComplete } from "./analytics.js";
+import { trackQuizComplete } from "./analytics.ts";
 
 type FinalResultId =
   | "7"
