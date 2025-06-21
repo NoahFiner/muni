@@ -7,7 +7,7 @@ import { useCallback } from "react";
 import { useAtomValue, useSetAtom } from "jotai";
 import { currentStateAtom, currentTextColorAtom } from "./atoms";
 import { Choice, MBTIType } from "./consts";
-import { trackQuestionComplete } from "./analytics.ts";
+import { trackQuestionComplete } from "./analytics";
 
 function TopBar({ number, title }: { number: number; title: string }) {
   return (
