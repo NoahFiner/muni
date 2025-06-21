@@ -7,6 +7,7 @@ import { useCallback } from "react";
 import { useAtomValue, useSetAtom } from "jotai";
 import { currentStateAtom, currentTextColorAtom } from "./atoms";
 import { Choice, MBTIType } from "./consts";
+import { trackQuestionComplete } from "./analytics";
 
 function TopBar({ number, title }: { number: number; title: string }) {
   return (
@@ -62,6 +63,8 @@ export default function Question({
 
   const onClick = useCallback(
     (mbti: MBTIType | undefined, fallback: "1" | "2") => {
+      const response = mbti || fallback;
+      trackQuestionComplete(number, response);
       setCurrentState((prev) => {
         const nextmbtis = [...prev.mbtis];
         if (mbti) {
@@ -75,7 +78,7 @@ export default function Question({
         };
       });
     },
-    [setCurrentState],
+    [setCurrentState, number],
   );
 
   return (

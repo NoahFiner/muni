@@ -21,6 +21,7 @@ import { usePreloadSomeImages } from "./imagePreloading";
 import { useAnimatedValue } from "./hooks";
 import { AnimatePresence, motion } from "motion/react";
 import { supabase, QuizResponseInsert } from "./lib/supabase";
+import { trackQuizComplete } from "./analytics";
 
 type FinalResultId =
   | "7"
@@ -243,16 +244,20 @@ const Results: React.FC = () => {
   const { ticketURL, titleURL, contentURL } =
     getImagesForPersonalityId(finalResultId);
 
+  const [isSaving, setIsSaving] = useState(false);
+  const [modalOpenUrl, setModalOpenUrl] = useState<string>("");
+  const [percentage, setPercentage] = useState<string>("");
+  const hasSubmitted = useRef(false);
+
   const isLoadingImages = usePreloadSomeImages([
     ticketURL,
     titleURL,
     contentURL,
   ]);
 
-  const [isSaving, setIsSaving] = useState(false);
-  const [modalOpenUrl, setModalOpenUrl] = useState<string>("");
-  const [percentage, setPercentage] = useState<string>("");
-  const hasSubmitted = useRef(false);
+  const isLoadingPercentage = !percentage;
+
+  const isLoading = isLoadingPercentage || isLoadingImages;
 
   useEffect(() => {
     if (modalOpenUrl) {
@@ -283,9 +288,16 @@ const Results: React.FC = () => {
 
   // Do an optimistic percentage calculation
   useEffect(() => {
-    fetchFinalResult();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    if (!percentage) {
+      fetchFinalResult();
+    }
+  }, [fetchFinalResult, percentage]);
+
+  useEffect(() => {
+    if (!isLoading) {
+      trackQuizComplete(mbtiString);
+    }
+  }, [isLoading, mbtiString]);
 
   // Handle full response submission and percentage calculation
   useEffect(() => {
@@ -296,7 +308,8 @@ const Results: React.FC = () => {
         !mbtiString ||
         !quizStartTime ||
         !userId ||
-        mbtis.length !== 17
+        mbtis.length !== 17 ||
+        isLoading
       )
         return;
 
@@ -357,6 +370,7 @@ const Results: React.FC = () => {
     mbtis,
     timesTaken,
     setHasSubmittedStats,
+    isLoading,
   ]);
 
   const clear = useCallback(() => {
@@ -386,7 +400,7 @@ const Results: React.FC = () => {
   return (
     <>
       <AnimatePresence>
-        {isLoadingImages && (
+        {isLoading && (
           <motion.div exit={{ opacity: 0 }} className="loading-results-outer">
             <LoadingResult />
           </motion.div>

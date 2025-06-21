@@ -30,6 +30,7 @@ import Results from "./Results";
 import { useCallback, useEffect } from "react";
 import Intro from "./Intro";
 import { useTimesTaken } from "./hooks";
+import { trackQuizStart, trackQuizDropoff } from "./analytics";
 
 export function QuestionManager() {
   const QUESTIONS_IN_ORDER = [
@@ -69,6 +70,7 @@ export function QuestionManager() {
     if (currentQuestion === 1) {
       setQuizStartTime(Date.now());
       setHasSubmittedStats(false);
+      trackQuizStart();
 
       // Generate user ID if it doesn't exist
       if (!userId && !localStorage.getItem("userId")) {
@@ -83,6 +85,18 @@ export function QuestionManager() {
     userId,
     setUserId,
   ]);
+
+  // Track dropoffs when someone leaves the page mid-quiz
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      if (currentQuestion > 0 && currentQuestion < QUESTIONS_IN_ORDER.length) {
+        trackQuizDropoff(currentQuestion);
+      }
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+  }, [currentQuestion, QUESTIONS_IN_ORDER.length]);
 
   const onClickBack = useCallback(
     () =>
