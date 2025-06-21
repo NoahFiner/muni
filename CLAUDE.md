@@ -25,22 +25,26 @@ This is a React + TypeScript + Vite project that implements an interactive San F
 ### Core Architecture
 
 **State Management**: Uses Jotai for atomic state management
+
 - `atoms.ts` - Contains all global state atoms including current question, MBTI scores, and UI color atoms
 - `currentStateAtom` - Tracks current question number and collected MBTI responses
 - Color atoms automatically derive background/text colors based on current question
 
 **Question Flow**:
+
 - `QuestionManager.tsx` - Main controller component that renders appropriate question or results
 - `AllQuestions.tsx` - Contains all 17 individual question components
 - `Intro.tsx` - Landing page component
 - `Results.tsx` - Final results page with image generation and sharing
 
 **Question System**:
+
 - 17 total questions (Question1 through Question17)
 - Each question response maps to MBTI personality dimensions (I/E, S/N, T/F, J/P)
 - Questions have different visual themes controlled by `QUESTION_METADATA` in `consts.ts`
 
 **Results System**:
+
 - Calculates MBTI personality from user responses
 - Maps personality types to SF transit routes (e.g., INTJ → "the-n", ESFP → "1")
 - Generates shareable PNG images using html-to-image library
@@ -63,13 +67,14 @@ This is a React + TypeScript + Vite project that implements an interactive San F
 ### Supabase Integration
 
 **Analytics Database**: Uses Supabase for comprehensive quiz response analytics
+
 - `src/lib/supabase.ts` - Supabase client setup and TypeScript types
 - `quiz_responses` table stores complete user journeys: all 17 question responses + personality result + completion time
 - `quizStartTimeAtom` tracks start time for completion time calculation
 - `hasSubmittedStatsAtom` prevents duplicate submissions per session
 - Cross-tab protection: localStorage prevents duplicate submissions when multiple browser tabs are open
 - Results page shows user's percentage among all quiz takers (derived from response data)
-- Percentage format: exactly 4 characters (e.g., "12.5%" or "03.2%")
+- Percentage format: exactly 4 digits (e.g., "12.54%" or "03.20%")
 - Error handling: console.error logs issues, hides percentage on failure
 - Session tracking resets when quiz restarts
 

@@ -248,9 +248,9 @@ const Results: React.FC = () => {
 
     if (percentageError) throw percentageError;
 
-    // Format as exactly 4 characters (XX.X%)
+    // Format as exactly 4 digits (XX.XX%)
     const formattedPercentage =
-      (percentageValue || 0).toFixed(1).padStart(4, "0") + "%";
+      (percentageValue || 0).toFixed(2).padStart(5, "0") + "%";
     setPercentage(formattedPercentage);
   }, [mbtiString]);
 
