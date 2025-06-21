@@ -96,12 +96,12 @@
 #percentage-results {
   color: #c20f2f;
   position: absolute;
-  top: 16%;
-  right: -23%;
+  top: 35.4%;
+  right: -22%;
   z-index: 1;
   width: 30%;
-  text-align: left;
-  font-size: 130%;
+  text-align: right;
+  font-size: min(3.5vw, 20px);
   font-family: monospace;
   transform-origin: bottom left;
   transform: rotate(274deg);
@@ -130,6 +130,7 @@
   margin-bottom: 1rem;
   padding-bottom: 0.5rem;
   text-align: center;
+  color: #000;
   font-family: "Fuzzy Bubbles", sans-serif;
 }
 
