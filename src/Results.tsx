@@ -88,6 +88,25 @@ const INITIAL_MBTI_SCORE: MBTIScore = {
   "2": 0,
 };
 
+const FALLBACK_MBTI: { [key in Personality]: string } = {
+  INTJ: "02.10%",
+  INTP: "03.30%",
+  ENTJ: "01.80%",
+  ENTP: "03.20%",
+  INFJ: "01.50%",
+  INFP: "04.40%",
+  ENFJ: "02.50%",
+  ENFP: "08.10%",
+  ISTJ: "11.60%",
+  ISFJ: "13.80%",
+  ESTJ: "08.70%",
+  ESFJ: "12.30%",
+  ISTP: "05.40%",
+  ISFP: "08.80%",
+  ESTP: "04.30%",
+  ESFP: "08.50%",
+};
+
 const arrayToScore = (mbtis: MBTIType[]): MBTIScore => {
   return mbtis.reduce(
     (acc, cur) => {
@@ -240,18 +259,22 @@ const Results: React.FC = () => {
   }, [modalOpenUrl]);
 
   const fetchFinalResult = useCallback(async () => {
-    // Calculate percentage using efficient backend function
-    const { data: percentageValue, error: percentageError } =
-      await supabase.rpc("get_personality_percentage_optimistic", {
-        p_personality_result: mbtiString,
-      });
+    try {
+      // Calculate percentage using efficient backend function
+      const { data: percentageValue, error: percentageError } =
+        await supabase.rpc("get_personality_percentage_optimistic", {
+          p_personality_result: mbtiString,
+        });
 
-    if (percentageError) throw percentageError;
+      if (percentageError) throw percentageError;
 
-    // Format as exactly 4 digits (XX.XX%)
-    const formattedPercentage =
-      (percentageValue || 0).toFixed(2).padStart(5, "0") + "%";
-    setPercentage(formattedPercentage);
+      // Format as exactly 4 digits (XX.XX%)
+      const formattedPercentage =
+        (percentageValue || 0).toFixed(2).padStart(5, "0") + "%";
+      setPercentage(formattedPercentage);
+    } catch {
+      setPercentage(FALLBACK_MBTI[mbtiString]);
+    }
   }, [mbtiString]);
 
   // Do an optimistic percentage calculation
