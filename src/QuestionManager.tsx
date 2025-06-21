@@ -3,6 +3,7 @@ import {
   currentBackgroundColorAtom,
   currentStateAtom,
   currentTextColorAtom,
+  hasSubmittedStatsAtom,
 } from "./atoms";
 import {
   Question1,
@@ -24,7 +25,7 @@ import {
   Question17,
 } from "./AllQuestions";
 import Results from "./Results";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import Intro from "./Intro";
 
 export function QuestionManager() {

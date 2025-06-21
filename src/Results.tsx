@@ -1,6 +1,6 @@
 import { useAtomValue, useSetAtom } from "jotai";
 import React, { useCallback, useEffect, useState } from "react";
-import { currentStateAtom, MBTIScore } from "./atoms";
+import { currentStateAtom, MBTIScore, hasSubmittedStatsAtom } from "./atoms";
 import { MBTIType } from "./consts";
 import * as htmlToImage from "html-to-image";
 import download from "downloadjs";
@@ -13,6 +13,7 @@ import saveButton from "./assets/results/save.png";
 import { usePreloadSomeImages } from "./imagePreloading";
 import { useAnimatedValue } from "./hooks";
 import { AnimatePresence, motion } from "motion/react";
+import { supabase } from "./lib/supabase";
 
 type FinalResultId =
   | "7"
@@ -203,6 +204,8 @@ const LoadingResult: React.FC = () => {
 const Results: React.FC = () => {
   const { mbtis } = useAtomValue(currentStateAtom);
   const setCurrentState = useSetAtom(currentStateAtom);
+  const hasSubmittedStats = useAtomValue(hasSubmittedStatsAtom);
+  const setHasSubmittedStats = useSetAtom(hasSubmittedStatsAtom);
   const mbtiScores = arrayToScore(mbtis);
   const mbtiString = actualMBTI(mbtiScores);
   const finalResultId = personalityToFinalResultId[mbtiString];
@@ -218,6 +221,7 @@ const Results: React.FC = () => {
 
   const [isSaving, setIsSaving] = useState(false);
   const [modalOpenUrl, setModalOpenUrl] = useState<string>("");
+  const [percentage, setPercentage] = useState<string>("");
 
   useEffect(() => {
     if (modalOpenUrl) {
@@ -226,6 +230,76 @@ const Results: React.FC = () => {
       document.body.classList.remove("stop-scroll");
     }
   }, [modalOpenUrl]);
+
+  // Handle stats submission and percentage calculation
+  useEffect(() => {
+    const submitStatsAndCalculatePercentage = async () => {
+      if (hasSubmittedStats || !mbtiString) return;
+
+      try {
+        // Increment count for this personality type
+        const { error: upsertError } = await supabase
+          .from("personality_stats")
+          .upsert(
+            { personality_type: mbtiString, count: 1 },
+            {
+              onConflict: "personality_type",
+              ignoreDuplicates: false,
+            },
+          )
+          .select();
+
+        if (upsertError) {
+          // Try to increment existing record instead
+          const { error: rpcError } = await supabase.rpc(
+            "increment_personality_count",
+            { personality_type: mbtiString },
+          );
+
+          if (rpcError) throw rpcError;
+        }
+
+        // Fetch all personality stats to calculate percentage
+        const { data: allStats, error: fetchError } = await supabase
+          .from("personality_stats")
+          .select("count");
+
+        if (fetchError) throw fetchError;
+
+        const totalCount =
+          allStats?.reduce((sum, stat) => sum + stat.count, 0) || 0;
+
+        // Get count for current personality type
+        const { data: currentStats, error: currentError } = await supabase
+          .from("personality_stats")
+          .select("count")
+          .eq("personality_type", mbtiString)
+          .single();
+
+        if (currentError) throw currentError;
+
+        const currentCount = currentStats?.count || 0;
+        const percentageValue =
+          totalCount > 0 ? (currentCount / totalCount) * 100 : 0;
+
+        // Format as exactly 4 characters (XX.XX%)
+        const formattedPercentage =
+          percentageValue.toFixed(2).padStart(4, "0") + "%";
+        setPercentage(formattedPercentage);
+
+        // Mark as submitted
+        setHasSubmittedStats(true);
+      } catch (error) {
+        console.error(
+          "Error submitting stats or calculating percentage:",
+          error,
+        );
+        // Don't show percentage if there's an error
+      }
+    };
+
+    submitStatsAndCalculatePercentage();
+  }, [mbtiString, hasSubmittedStats, setHasSubmittedStats]);
 
   const clear = useCallback(() => {
     setCurrentState({
@@ -288,7 +362,7 @@ const Results: React.FC = () => {
               <div className="ticket-wobble-animation">
                 <div className="ticket-outer">
                   <img src={ticketURL} />
-                  <p>asdf</p>
+                  {percentage && <p id="percentage-results">{percentage}</p>}
                 </div>
               </div>
             </div>

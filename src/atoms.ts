@@ -17,7 +17,7 @@ export const currentStateAtom = atomWithStorage<CurrentState>("currentState", {
 export const currentBackgroundColorAtom = atom(
   (get) =>
     QUESTION_METADATA[get(currentStateAtom).currentQuestion]?.backgroundColor ||
-    "#000"
+    "#000",
 );
 
 export const currentTextColorAtom = atom((get) => {
@@ -45,3 +45,8 @@ export const currentTransitDecalColor = atom((get) => {
       return "#D08F26";
   }
 });
+
+export const hasSubmittedStatsAtom = atomWithStorage<boolean>(
+  "hasSubmittedStats",
+  false,
+);

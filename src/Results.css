@@ -1,3 +1,7 @@
+.results-outer p {
+  color: #000;
+}
+
 .results-outer {
   background-color: #eaeff2;
   width: 100%;
@@ -84,10 +88,10 @@
 .ticket-outer > p {
   color: #c20f2f;
   position: absolute;
-  top: 10vw;
-  right: -22.9vw;
+  bottom: 58%;
+  right: -29%;
   width: 100px;
-  font-size: 4.8vw;
+  font-size: 184%;
   font-family: monospace;
   transform-origin: bottom left;
   transform: rotate(270deg);
@@ -220,8 +224,4 @@
   background-color: #eaeff2;
   height: 100vh;
   width: 100vw;
-}
-
-.results-outer p {
-  color: #000;
 }

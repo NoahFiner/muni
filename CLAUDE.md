@@ -60,6 +60,19 @@ This is a React + TypeScript + Vite project that implements an interactive San F
 - Each result folder contains: `content.png`, `ticket.png`, `title.png`
 - `complicated-svgs/` - Complex animated SVG components
 
+### Supabase Integration
+
+**Database**: Uses Supabase for tracking personality type statistics
+- `src/lib/supabase.ts` - Supabase client setup and TypeScript types
+- `personality_stats` table tracks count for each of 16 MBTI personality types
+- `hasSubmittedStatsAtom` prevents duplicate submissions per session
+- Results page shows user's percentage among all quiz takers
+- Percentage format: exactly 4 characters (e.g., "12.5%" or "03.2%")
+- Error handling: console.error logs issues, hides percentage on failure
+- Session tracking resets when quiz restarts
+
+**Setup**: See `SUPABASE_SETUP.md` for database schema and RLS policies
+
 ### Development Notes
 
 - Mobile-first design with responsive breakpoints
