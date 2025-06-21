@@ -268,9 +268,8 @@ const Results: React.FC = () => {
 
       if (percentageError) throw percentageError;
 
-      // Format as exactly 4 digits (XX.XX%)
-      const formattedPercentage =
-        (percentageValue || 0).toFixed(2).padStart(5, "0") + "%";
+      // Format with two percentage points (XX.XX% or X.XX%)
+      const formattedPercentage = (percentageValue || 0).toFixed(2) + "%";
       setPercentage(formattedPercentage);
     } catch {
       setPercentage(FALLBACK_MBTI[mbtiString]);

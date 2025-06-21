@@ -74,7 +74,7 @@ This is a React + TypeScript + Vite project that implements an interactive San F
 - `hasSubmittedStatsAtom` prevents duplicate submissions per session
 - Cross-tab protection: localStorage prevents duplicate submissions when multiple browser tabs are open
 - Results page shows user's percentage among all quiz takers (derived from response data)
-- Percentage format: exactly 4 digits (e.g., "12.54%" or "03.20%")
+- Percentage format: exactly 2 percentage points (e.g., "12.54%" or "3.20%")
 - Error handling: console.error logs issues, hides percentage on failure
 - Session tracking resets when quiz restarts
 
