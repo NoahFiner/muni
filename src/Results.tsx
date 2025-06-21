@@ -172,17 +172,8 @@ const Modal = ({
         <CloseIcon />
       </div>
       <p style={{ width: "calc(100% - 40px - 3rem)" }}>
-        Hold down on your results image to save it to your camera roll.
-      </p>
-      <p>
-        If that doesn't work, download your results{" "}
-        <strong
-          className="fake-link"
-          onClick={() => download(modalOpenUrl, "transit.png")}
-        >
-          by clicking here
-        </strong>
-        .
+        Downloaded your results!!! If that didn't work, try holding down on the
+        below image, then tapping "Save to camera roll".
       </p>
       <img src={modalOpenUrl} />
     </div>
@@ -388,10 +379,9 @@ const Results: React.FC = () => {
       await htmlToImage.toPng(node);
       await htmlToImage.toPng(node);
       const dataUrl = await htmlToImage.toPng(node);
+      download(dataUrl, "transit.png");
       if (isMobileSafari()) {
         setModalOpenUrl(dataUrl);
-      } else {
-        download(dataUrl, "transit.png");
       }
     }
     setIsSaving(false);
