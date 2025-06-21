@@ -404,8 +404,8 @@ const Results: React.FC = () => {
               <div className="ticket-wobble-animation">
                 <div className="ticket-outer">
                   <img src={ticketURL} />
-                  {percentage && <p id="percentage-results">{percentage}</p>}
                 </div>
+                {percentage && <p id="percentage-results">{percentage}</p>}
               </div>
             </div>
           </div>
