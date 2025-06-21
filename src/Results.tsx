@@ -239,6 +239,27 @@ const Results: React.FC = () => {
     }
   }, [modalOpenUrl]);
 
+  const fetchFinalResult = useCallback(async () => {
+    // Calculate percentage using efficient backend function
+    const { data: percentageValue, error: percentageError } =
+      await supabase.rpc("get_personality_percentage_optimistic", {
+        p_personality_result: mbtiString,
+      });
+
+    if (percentageError) throw percentageError;
+
+    // Format as exactly 4 characters (XX.X%)
+    const formattedPercentage =
+      (percentageValue || 0).toFixed(1).padStart(4, "0") + "%";
+    setPercentage(formattedPercentage);
+  }, [mbtiString]);
+
+  // Do an optimistic percentage calculation
+  useEffect(() => {
+    fetchFinalResult();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   // Handle full response submission and percentage calculation
   useEffect(() => {
     const submitResponsesAndCalculatePercentage = async () => {
@@ -253,18 +274,18 @@ const Results: React.FC = () => {
 
       // Simple approach: let database handle uniqueness
       const submissionKey = `quiz_submitted_${mbtiString}_${quizStartTime}`;
-      
+
       // Check if we already tried to submit
       if (localStorage.getItem(submissionKey)) {
         console.log("Already submitted from this browser session, skipping");
         setHasSubmittedStats(true);
         return;
       }
-      
+
       // Mark that we're about to submit (before any async operations)
       localStorage.setItem(submissionKey, "submitting");
       hasSubmitted.current = true;
-      
+
       try {
         // Transform mbtis array to question-response format
         const responses = mbtis.map((response, index) => ({
@@ -289,38 +310,19 @@ const Results: React.FC = () => {
 
         if (insertError) {
           // Check if it's a duplicate submission error
-          if (insertError.code === '23505') { // Unique constraint violation
-            console.log("Quiz already submitted (duplicate detected by database), continuing with percentage calculation");
+          if (insertError.code === "23505") {
+            // Unique constraint violation
+            console.log(
+              "Quiz already submitted (duplicate detected by database), continuing with percentage calculation",
+            );
           } else {
             throw insertError;
           }
         }
 
-        // Calculate percentage by querying all responses
-        const { data: allResponses, error: fetchError } = await supabase
-          .from("quiz_responses")
-          .select("personality_result");
-
-        if (fetchError) throw fetchError;
-
-        const totalCount = allResponses?.length || 0;
-        const currentTypeCount =
-          allResponses?.filter(
-            (response) => response.personality_result === mbtiString,
-          ).length || 0;
-
-        const percentageValue =
-          totalCount > 0 ? (currentTypeCount / totalCount) * 100 : 0;
-
-        // Format as exactly 4 characters (XX.X%)
-        const formattedPercentage =
-          percentageValue.toFixed(1).padStart(4, "0") + "%";
-        setPercentage(formattedPercentage);
-
         // Mark as fully submitted
         localStorage.setItem(submissionKey, "submitted");
         setHasSubmittedStats(true);
-        
       } catch (error) {
         console.error(
           "Error submitting quiz response or calculating percentage:",

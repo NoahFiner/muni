@@ -20,12 +20,40 @@ CREATE INDEX idx_quiz_responses_created_at ON quiz_responses(created_at);
 
 -- Add unique constraint to prevent duplicate submissions from same session
 -- This uses personality_result + completion_time_seconds (with millisecond precision) as uniqueness check
-ALTER TABLE quiz_responses 
-ADD CONSTRAINT unique_quiz_session 
+ALTER TABLE quiz_responses
+ADD CONSTRAINT unique_quiz_session
 UNIQUE (personality_result, completion_time_seconds);
 
 -- If you already have the table with INTEGER completion_time_seconds, run this to update:
 -- ALTER TABLE quiz_responses ALTER COLUMN completion_time_seconds TYPE REAL;
+
+-- Function to calculate personality percentage efficiently
+CREATE OR REPLACE FUNCTION get_personality_percentage(
+  p_personality_result TEXT
+) RETURNS REAL AS $$
+DECLARE
+  total_count INTEGER;
+  personality_count INTEGER;
+  percentage REAL;
+BEGIN
+  -- Get total count of all responses
+  SELECT COUNT(*) INTO total_count FROM quiz_responses;
+
+  -- Get count for specific personality type
+  SELECT COUNT(*) INTO personality_count
+  FROM quiz_responses
+  WHERE personality_result = p_personality_result;
+
+  -- Calculate percentage
+  IF total_count > 0 THEN
+    percentage := (personality_count::REAL / total_count::REAL) * 100.0;
+  ELSE
+    percentage := 0.0;
+  END IF;
+
+  RETURN percentage;
+END;
+$$ LANGUAGE plpgsql;
 ```
 
 ## 2. Set up Row Level Security (RLS)
@@ -72,6 +100,15 @@ SELECT personality_result,
 FROM quiz_responses
 GROUP BY personality_result
 ORDER BY avg_seconds;
+
+-- Test the percentage calculation function
+SELECT get_personality_percentage('INTJ') as intj_percentage;
+
+-- Get percentages for all personality types efficiently
+SELECT personality_result,
+       get_personality_percentage(personality_result) as percentage
+FROM (SELECT DISTINCT personality_result FROM quiz_responses) AS types
+ORDER BY percentage DESC;
 ```
 
 ## 4. Environment Variables

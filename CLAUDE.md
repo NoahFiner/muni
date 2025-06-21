@@ -77,6 +77,8 @@ This is a React + TypeScript + Vite project that implements an interactive San F
 
 **Analytics**: Enables rich analysis of question balance, response patterns, completion times, and personality distributions
 
+**Performance**: Backend percentage calculation using Supabase RPC function scales efficiently to millions of users
+
 **Setup**: See `SUPABASE_SETUP.md` for database schema and sample analytics queries
 
 ### Development Notes
