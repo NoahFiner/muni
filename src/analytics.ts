@@ -27,7 +27,10 @@ export const trackQuizStart = () => {
   });
 };
 
-export const trackQuestionComplete = (questionNumber: number, response: string) => {
+export const trackQuestionComplete = (
+  questionNumber: number,
+  response: string,
+) => {
   trackEvent("question_complete", {
     event_category: "quiz_engagement",
     event_label: `question_${questionNumber}`,
@@ -50,4 +53,27 @@ export const trackQuizDropoff = (questionNumber: number) => {
     event_label: `dropoff_question_${questionNumber}`,
     question_number: questionNumber,
   });
+};
+
+// UTM source is automatically tracked by Google Analytics
+// This function sends additional context when UTM source indicates QR code traffic
+export const trackQRCodeContext = (utmSource: string) => {
+  trackEvent("qr_code_scan", {
+    event_category: "engagement",
+    event_label: utmSource,
+    utm_source: utmSource,
+  });
+};
+
+// Utility function to check for QR code UTM source and send additional context
+export const checkAndTrackUTMParams = () => {
+  if (typeof window !== "undefined") {
+    const urlParams = new URLSearchParams(window.location.search);
+    const utmSource = urlParams.get("utm_source");
+
+    // Track additional context if this is QR code traffic
+    if (utmSource) {
+      trackQRCodeContext(utmSource);
+    }
+  }
 };
