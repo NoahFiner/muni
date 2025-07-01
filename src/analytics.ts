@@ -77,3 +77,23 @@ export const checkAndTrackUTMParams = () => {
     }
   }
 };
+
+// Clean utm_source parameter from URL after tracking
+export const cleanUrlParams = () => {
+  if (
+    typeof window !== "undefined" &&
+    window.history &&
+    window.history.replaceState
+  ) {
+    const url = new URL(window.location.href);
+    const params = url.searchParams;
+
+    // Remove utm_source parameter
+    params.delete("utm_source");
+
+    // Update URL without page reload
+    const cleanUrl =
+      url.pathname + (params.toString() ? "?" + params.toString() : "");
+    window.history.replaceState({}, document.title, cleanUrl);
+  }
+};

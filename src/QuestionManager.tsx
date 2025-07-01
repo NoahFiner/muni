@@ -59,7 +59,7 @@ export function QuestionManager() {
   const setHasSubmittedStats = useSetAtom(hasSubmittedStatsAtom);
   const userId = useAtomValue(userIdAtom);
   const setUserId = useSetAtom(userIdAtom);
-  
+
   // Use custom hook for times taken logic
   useTimesTaken(currentQuestion === 1, currentQuestion === 0);
 
@@ -86,6 +86,7 @@ export function QuestionManager() {
     setUserId,
   ]);
 
+
   // Track dropoffs when someone leaves the page mid-quiz
   useEffect(() => {
     const handleBeforeUnload = () => {
@@ -94,8 +95,8 @@ export function QuestionManager() {
       }
     };
 
-    window.addEventListener('beforeunload', handleBeforeUnload);
-    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
   }, [currentQuestion, QUESTIONS_IN_ORDER.length]);
 
   const onClickBack = useCallback(

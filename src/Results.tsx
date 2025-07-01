@@ -21,7 +21,7 @@ import { usePreloadSomeImages } from "./imagePreloading";
 import { useAnimatedValue } from "./hooks";
 import { AnimatePresence, motion } from "motion/react";
 import { supabase, QuizResponseInsert } from "./lib/supabase";
-import { trackQuizComplete } from "./analytics";
+import { trackQuizComplete, cleanUrlParams } from "./analytics";
 
 type FinalResultId =
   | "7"
@@ -286,6 +286,8 @@ const Results: React.FC = () => {
   useEffect(() => {
     if (!isLoading) {
       trackQuizComplete(mbtiString);
+      // Clean UTM parameters from URL when results are shown
+      cleanUrlParams();
     }
   }, [isLoading, mbtiString]);
 
